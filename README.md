@@ -1,7 +1,8 @@
-# Project name
+# Finance Tracker
 
 ## Description
 Описание проекта
+сервис для анализа трат
 
 
 
