@@ -1,0 +1,4 @@
+package com.example.financeTracker.controller;
+
+public class BaseController {
+}
