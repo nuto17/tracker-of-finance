@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-//@Table(name="wallets")
+@Table(name="wallets")
 @NoArgsConstructor
 @Builder
 @Data
@@ -18,6 +18,8 @@ public class Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String name;
 
     private Long balance;
 }

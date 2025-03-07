@@ -7,6 +7,8 @@ import com.example.financeTracker.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "api/wallets")
@@ -16,10 +18,10 @@ public class WalletConroller {
     private final WalletMapper mapper;
 
     @GetMapping
-    public WalletDto getWalletDtoById(Long id){
-        Wallet walletById = walletService.getWalletById(id);
-        WalletDto walletDto = mapper.toDto(walletById);
-        return walletDto;
+    public List<WalletDto> getWallets(){
+        List<Wallet> wallets = walletService.getWallets();
+        List<WalletDto> walletsDto = mapper.toDto(wallets);
+        return walletsDto;
     }
 
     @PutMapping("/{id}")

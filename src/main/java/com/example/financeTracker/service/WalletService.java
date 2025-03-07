@@ -7,9 +7,10 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
-
 public class WalletService {
 
     private final WalletRepository walletRepository;
@@ -22,17 +23,24 @@ public class WalletService {
 
     public Wallet getWalletById(Long id) {
         Wallet walletById = walletRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("wallet with id doesnt exist"));
+                .orElseThrow(() -> new EntityNotFoundException("wallet with id doesn't exist"));
         return walletById;
     }
 
     public Wallet updateWallet(Wallet wallet, Long id) {
         Wallet walletById = getWalletById(id);
         Wallet builedWallet = Wallet.builder()
-                .id(wallet.getId())
+                .id(walletById.getId())
+                .name(wallet.getName())
                 .balance(wallet.getBalance())
                 .build();
-        return builedWallet;
+        Wallet savedBuilded = walletRepository.save(builedWallet);
+        return savedBuilded;
+    }
+
+    public List<Wallet> getWallets(){
+        List<Wallet> wallets = walletRepository.findAll();
+        return wallets;
     }
 
     public void deleteWallet(Long id) {

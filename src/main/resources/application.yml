@@ -1,27 +1,27 @@
-server:
-  port: 6666
+#server:
+#  port: 6666
 
 spring:
   application:
     name: template
   datasource:
-    url: jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DB}
-    username: ${PG_USER}
-    password: ${PG_PASSWORD}
+    url: jdbc:postgresql://localhost:5431/wallets-db
+    username: postgres
+    password: 12345
   flyway:
-    url: jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DB}
-    user: ${PG_USER}
-    password: ${PG_PASSWORD}
+    url: jdbc:postgresql://localhost:5431/wallets-db
+    user: postgres
+    password: 12345
     baseline-on-migrate: true
     locations: classpath:db/migration
-    schemas: ${FLYWAY_SCHEMA:public}
+    schemas: public
     validate-migration-naming: true
   jpa:
     hibernate:
       ddl-auto: validate
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    show-sql: ${JPA_IS_SHOW_SQL:false}
+    show-sql: true
     properties:
       hibernate:
         format_sql: true
