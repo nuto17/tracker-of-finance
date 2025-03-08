@@ -16,15 +16,20 @@ public class WalletService {
     private final WalletRepository walletRepository;
     private final WalletMapper mapper;
 
-    public Wallet saveWallet(Wallet wallet) {
-        Wallet savedWallet = walletRepository.save(wallet);
-        return savedWallet;
+    public List<Wallet> getWallets() {
+        List<Wallet> wallets = walletRepository.findAll();
+        return wallets;
     }
 
     public Wallet getWalletById(Long id) {
         Wallet walletById = walletRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("wallet with id doesn't exist"));
         return walletById;
+    }
+
+    public Wallet createWallet(Wallet wallet) {
+        Wallet createdWallet = walletRepository.save(wallet);
+        return createdWallet;
     }
 
     public Wallet updateWallet(Wallet wallet, Long id) {
@@ -36,11 +41,6 @@ public class WalletService {
                 .build();
         Wallet savedBuilded = walletRepository.save(builedWallet);
         return savedBuilded;
-    }
-
-    public List<Wallet> getWallets(){
-        List<Wallet> wallets = walletRepository.findAll();
-        return wallets;
     }
 
     public void deleteWallet(Long id) {

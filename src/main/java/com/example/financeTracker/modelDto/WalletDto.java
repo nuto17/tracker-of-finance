@@ -9,5 +9,5 @@ public class WalletDto {
 
     private String name;
 
-    private Long balance;
+    private Double balance;
 }

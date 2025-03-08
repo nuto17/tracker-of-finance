@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="wallets")
+@Table(name = "wallets")
 @NoArgsConstructor
 @Builder
 @Data
@@ -21,5 +21,5 @@ public class Wallet {
 
     private String name;
 
-    private Long balance;
+    private Double balance;
 }
