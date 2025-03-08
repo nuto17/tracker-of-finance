@@ -1,6 +1,7 @@
 package com.example.financeTracker.modelDto;
 
 import lombok.Data;
+import java.math.BigDecimal;
 
 @Data
 public class WalletDto {
@@ -9,5 +10,5 @@ public class WalletDto {
 
     private String name;
 
-    private Double balance;
+    private BigDecimal balance;
 }
