@@ -5,21 +5,18 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.math.BigDecimal;
 
 @Entity
-@Table(name = "wallets")
+@Table(name = "categories")
 @NoArgsConstructor
-@Data
 @AllArgsConstructor
+@Data
 @Builder
-public class Wallet {
+public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-
-    private BigDecimal balance;
 }
