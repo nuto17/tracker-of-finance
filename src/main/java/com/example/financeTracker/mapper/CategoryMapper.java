@@ -1,7 +1,7 @@
 package com.example.financeTracker.mapper;
 
+import com.example.financeTracker.Dto.CategoryDto;
 import com.example.financeTracker.model.Category;
-import com.example.financeTracker.modelDto.CategoryDto;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -10,8 +10,10 @@ import java.util.List;
 public interface CategoryMapper {
 
     Category toModel(CategoryDto categoryDto);
+
     CategoryDto toDto(Category category);
 
     List<Category> toModel(List<CategoryDto> categoriesDto);
+
     List<CategoryDto> toDto(List<Category> categories);
 }

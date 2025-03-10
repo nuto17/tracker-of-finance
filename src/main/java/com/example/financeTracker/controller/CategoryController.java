@@ -1,8 +1,8 @@
 package com.example.financeTracker.controller;
 
+import com.example.financeTracker.Dto.CategoryDto;
 import com.example.financeTracker.mapper.CategoryMapper;
 import com.example.financeTracker.model.Category;
-import com.example.financeTracker.modelDto.CategoryDto;
 import com.example.financeTracker.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
