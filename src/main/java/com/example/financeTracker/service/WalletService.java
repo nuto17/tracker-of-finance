@@ -1,6 +1,5 @@
 package com.example.financeTracker.service;
 
-import com.example.financeTracker.mapper.WalletMapper;
 import com.example.financeTracker.model.Wallet;
 import com.example.financeTracker.repository.WalletRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -14,7 +13,6 @@ import java.util.List;
 public class WalletService {
 
     private final WalletRepository walletRepository;
-    private final WalletMapper mapper;
 
     public List<Wallet> getWallets() {
         List<Wallet> wallets = walletRepository.findAll();
