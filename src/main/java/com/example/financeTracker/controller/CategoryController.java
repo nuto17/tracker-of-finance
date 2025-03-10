@@ -14,19 +14,19 @@ import java.util.List;
 @RequestMapping(path = "api/categories")
 public class CategoryController {
 
-    private final CategoryService service;
+    private final CategoryService categoryService;
     private final CategoryMapper mapper;
 
     @GetMapping
     public List<CategoryDto> getCategories() {
-        List<Category> categories = service.getCategories();
+        List<Category> categories = categoryService.getCategories();
         List<CategoryDto> categoriesDto = mapper.toDto(categories);
         return categoriesDto;
     }
 
     @GetMapping("/{id}")
     public CategoryDto getCategoryById(@PathVariable("id") Long id) {
-        Category categoryById = service.getCategoryById(id);
+        Category categoryById = categoryService.getCategoryById(id);
         CategoryDto categoryByIdDto = mapper.toDto(categoryById);
         return categoryByIdDto;
     }
@@ -34,7 +34,7 @@ public class CategoryController {
     @PostMapping
     public CategoryDto createCategory(@RequestBody CategoryDto categoryDto) {
         Category category = mapper.toModel(categoryDto);
-        Category createdCategory = service.createCategory(category);
+        Category createdCategory = categoryService.createCategory(category);
         CategoryDto createdCategoryDto = mapper.toDto(createdCategory);
         return createdCategoryDto;
     }
@@ -42,13 +42,13 @@ public class CategoryController {
     @PutMapping("/{id}")
     public CategoryDto updateCategory(@RequestBody CategoryDto categoryDto, @PathVariable("id") Long id) {
         Category category = mapper.toModel(categoryDto);
-        Category updatedCategory = service.updateCategory(category, id);
+        Category updatedCategory = categoryService.updateCategory(category, id);
         CategoryDto updatedCategoryDto = mapper.toDto(updatedCategory);
         return updatedCategoryDto;
     }
 
     @DeleteMapping("/{id}")
     public void deleteCategory(@PathVariable("id") Long id) {
-        service.deleteCategory(id);
+        categoryService.deleteCategory(id);
     }
 }
