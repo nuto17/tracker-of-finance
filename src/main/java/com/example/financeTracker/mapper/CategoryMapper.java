@@ -1,6 +1,6 @@
 package com.example.financeTracker.mapper;
 
-import com.example.financeTracker.Dto.CategoryDto;
+import com.example.financeTracker.dto.CategoryDto;
 import com.example.financeTracker.model.Category;
 import org.mapstruct.Mapper;
 

@@ -2,7 +2,7 @@ package com.example.financeTracker.controller;
 
 import com.example.financeTracker.mapper.WalletMapper;
 import com.example.financeTracker.model.Wallet;
-import com.example.financeTracker.Dto.WalletDto;
+import com.example.financeTracker.dto.WalletDto;
 import com.example.financeTracker.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

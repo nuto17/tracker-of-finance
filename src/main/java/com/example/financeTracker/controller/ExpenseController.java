@@ -1,6 +1,6 @@
 package com.example.financeTracker.controller;
 
-import com.example.financeTracker.Dto.ExpenseDto;
+import com.example.financeTracker.dto.ExpenseDto;
 import com.example.financeTracker.mapper.ExpenseMapper;
 import com.example.financeTracker.model.Expense;
 import com.example.financeTracker.service.ExpenseService;
