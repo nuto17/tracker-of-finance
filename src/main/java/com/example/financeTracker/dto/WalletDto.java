@@ -1,4 +1,4 @@
-package com.example.financeTracker.Dto;
+package com.example.financeTracker.dto;
 
 import lombok.Data;
 import java.math.BigDecimal;
