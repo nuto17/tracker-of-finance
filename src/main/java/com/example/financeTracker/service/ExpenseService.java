@@ -28,12 +28,12 @@ public class ExpenseService {
     }
 
     public Expense createExpense(Expense expense) {
-        Boolean expenseOperation = walletService.makeExpense(expense);
-        if (expenseOperation){
+        Boolean isExpenseOperationMaked = walletService.makeExpense(expense);
+        if (isExpenseOperationMaked){
             Expense createdExpense = expenseRepository.save(expense);
             return createdExpense;
         }
-        else throw new IllegalArgumentException("balance cannot be less than expense");
+        throw new IllegalArgumentException("balance cannot be less than expense");
     }
 
     public Expense updateExpense(Expense expense, Long id) {

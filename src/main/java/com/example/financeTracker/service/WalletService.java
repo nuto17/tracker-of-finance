@@ -48,8 +48,7 @@ public class WalletService {
 
     public Boolean makeExpense(Expense expense) {
         Wallet walletById = getWalletById(expense.getWalletId());
-        if (walletById.getBalance().compareTo(expense.getAmount()) >= 0) {
-            return true;
-        } else return false;
+        if (walletById.getBalance().compareTo(expense.getAmount()) >= 0) {return true;}
+        return false;
     }
 }
