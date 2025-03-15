@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -25,9 +25,12 @@ public class Expense {
     private BigDecimal amount;
 
     @Column(name = "time_added")
-    private Date timeAdded;
+    private LocalDate timeAdded;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @Column(name = "wallet_id")
+    private Long walletId;
 }

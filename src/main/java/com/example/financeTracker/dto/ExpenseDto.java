@@ -10,9 +10,11 @@ public class ExpenseDto {
 
     private Long id;
 
-    private CategoryDto categoryDto;
+    private CategoryDto category;
 
     private Date timeAdded;
 
     private BigDecimal amount;
+
+    private Long walletId;
 }

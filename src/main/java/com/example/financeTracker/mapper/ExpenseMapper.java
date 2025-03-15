@@ -16,13 +16,15 @@ public interface ExpenseMapper {
     @Mapping(target = "id", source = "expenseDto.id")
     @Mapping(target = "amount", source = "expenseDto.amount")
     @Mapping(target = "timeAdded", source = "expenseDto.timeAdded")
-    @Mapping(target = "category", source = "expenseDto.categoryDto", qualifiedByName = "mapCategoryDtoToCategory")
+    @Mapping(target = "category", source = "expenseDto.category", qualifiedByName = "mapCategoryDtoToCategory")
+    @Mapping(target = "walletId", source = "expenseDto.walletId")
     Expense toModel(ExpenseDto expenseDto);
 
     @Mapping(target = "id", source = "expense.id")
     @Mapping(target = "amount", source = "expense.amount")
     @Mapping(target = "timeAdded", source = "expense.timeAdded")
-    @Mapping(target = "categoryDto", source = "expense.category", qualifiedByName = "mapCategoryToCategoryDto")
+    @Mapping(target = "category", source = "expense.category", qualifiedByName = "mapCategoryToCategoryDto")
+    @Mapping(target = "walletId", source = "expense.walletId")
     ExpenseDto toDto(Expense expense);
 
     List<Expense> toModel(List<ExpenseDto> expensesDto);

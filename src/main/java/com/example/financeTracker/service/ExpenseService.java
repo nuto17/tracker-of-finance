@@ -13,6 +13,7 @@ import java.util.List;
 public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
+    private final WalletService walletService;
 
     public List<Expense> getExpenses() {
         List<Expense> allExpenses = expenseRepository.findAll();
@@ -27,8 +28,12 @@ public class ExpenseService {
     }
 
     public Expense createExpense(Expense expense) {
-        Expense savedExpense = expenseRepository.save(expense);
-        return savedExpense;
+        Boolean expenseOperation = walletService.makeExpense(expense);
+        if (expenseOperation){
+            Expense createdExpense = expenseRepository.save(expense);
+            return createdExpense;
+        }
+        else throw new IllegalArgumentException("balance cannot be less than expense");
     }
 
     public Expense updateExpense(Expense expense, Long id) {
@@ -39,6 +44,7 @@ public class ExpenseService {
                 .amount(expense.getAmount())
                 .timeAdded(expense.getTimeAdded())
                 .category(expense.getCategory())
+                .walletId(expense.getWalletId())
                 .build();
         Expense savedBuildedExpense = expenseRepository.save(buildedExpense);
         return savedBuildedExpense;

@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     ports:
-      - "6666:6666"
+      - "8887:8888"
     env_file:
       - .env.docker
     depends_on:

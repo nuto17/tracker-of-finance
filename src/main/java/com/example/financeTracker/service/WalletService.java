@@ -1,5 +1,6 @@
 package com.example.financeTracker.service;
 
+import com.example.financeTracker.model.Expense;
 import com.example.financeTracker.model.Wallet;
 import com.example.financeTracker.repository.WalletRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -43,5 +44,12 @@ public class WalletService {
 
     public void deleteWallet(Long id) {
         walletRepository.deleteById(id);
+    }
+
+    public Boolean makeExpense(Expense expense) {
+        Wallet walletById = getWalletById(expense.getWalletId());
+        if (walletById.getBalance().compareTo(expense.getAmount()) >= 0) {
+            return true;
+        } else return false;
     }
 }
