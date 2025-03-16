@@ -52,7 +52,7 @@ git clone https://github.com/nuto17/tracker-of-finance
 
 4. Запустите образ с автоматической сборкой
 ```shell
-docker-compose --enf-file .env.docker up -d
+docker-compose --env-file .env.docker up -d
 
 ```
 
