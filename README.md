@@ -52,7 +52,7 @@ git clone https://github.com/nuto17/tracker-of-finance
 
 4. Запустите образ с автоматической сборкой
 ```shell
-docker-compose .env.docker up -d
+docker-compose --enf-file .env.docker up -d
 
 ```
 
@@ -71,7 +71,7 @@ http://localhost:8887/swagger-ui.html
 
 2. Запустите проект с автоматической сборкой:
 ```shell
-docker-compose .env.docker up -d
+docker-compose --env-file .env.docker up -d
 ```
 
 3. Запустите приложение через UI или командой:
