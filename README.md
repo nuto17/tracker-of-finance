@@ -52,13 +52,14 @@ git clone https://github.com/nuto17/tracker-of-finance
 
 4. Запустите образ с автоматической сборкой
 ```shell
-docker-compose up -d
+docker-compose .env.docker up -d
+
 ```
 
 ## System endpoints
 Swagger endpoint
 ```
-http://localhost:8081/swagger-ui.html
+http://localhost:8887/swagger-ui.html
 ```
 
 ## Contribution
