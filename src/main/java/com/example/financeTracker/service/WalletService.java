@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -48,7 +49,12 @@ public class WalletService {
 
     public Boolean makeExpense(Expense expense) {
         Wallet walletById = getWalletById(expense.getWalletId());
-        if (walletById.getBalance().compareTo(expense.getAmount()) >= 0) {return true;}
+        if (walletById.getBalance().compareTo(expense.getAmount()) >= 0) {
+            BigDecimal subtractBetweenBalanceAndAmount = walletById.getBalance().subtract(expense.getAmount());
+            walletById.setBalance(subtractBetweenBalanceAndAmount);
+            Wallet updatedWallet = updateWallet(walletById, walletById.getId());
+            return true;
+        }
         return false;
     }
 }

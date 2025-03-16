@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 @Data
 public class WalletDto {
 
-    private Long id;
+//    private Long id;
 
     private String name;
 
