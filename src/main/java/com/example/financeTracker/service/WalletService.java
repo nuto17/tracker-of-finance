@@ -48,7 +48,7 @@ public class WalletService {
     }
 
     public Boolean makeExpense(Expense expense) {
-        Wallet walletById = getWalletById(expense.getWalletId());
+        Wallet walletById = getWalletById(expense.getWallet().getId());
         if (walletById.getBalance().compareTo(expense.getAmount()) >= 0) {
             BigDecimal subtractBetweenBalanceAndAmount = walletById.getBalance().subtract(expense.getAmount());
             walletById.setBalance(subtractBetweenBalanceAndAmount);

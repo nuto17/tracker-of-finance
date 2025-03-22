@@ -5,9 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -25,7 +24,7 @@ public class Subscription {
     private String name;
 
     @Column(name = "date_to_pay")
-    private Date dateToPay;
+    private LocalDate dateToPay;
 
     @Column(name = "price")
     private BigDecimal price;

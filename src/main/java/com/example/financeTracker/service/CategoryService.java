@@ -6,6 +6,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -36,6 +37,7 @@ public class CategoryService {
         Category buildedCategory = Category.builder()
                 .id(categoryById.getId())
                 .name(category.getName())
+                .categoryBalance(category.getCategoryBalance())
                 .build();
         Category savedBuildedCategory = categoryRepository.save(buildedCategory);
         return savedBuildedCategory;

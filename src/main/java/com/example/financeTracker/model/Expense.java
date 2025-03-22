@@ -5,8 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -14,22 +18,25 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "expenses")
+@EntityListeners(AuditingEntityListener.class)
 public class Expense {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "amount")
+    @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
-    @Column(name = "time_added")
-    private LocalDate timeAdded;
+    @Column(name = "time_added", nullable = false, updatable = false)
+    @CreatedDate
+    private LocalDateTime timeAdded;
 
-    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
+    @ManyToOne
     private Category category;
 
-    @Column(name = "wallet_id")
-    private Long walletId;
+    @JoinColumn(name = "wallet_id", nullable = false)
+    @ManyToOne
+    private Wallet wallet;
 }
