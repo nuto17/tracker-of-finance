@@ -1,25 +1,30 @@
 package com.example.financeTracker.dto;
 
-import com.example.financeTracker.model.Category;
-import com.example.financeTracker.model.Wallet;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Data;
-import org.springframework.cglib.core.Local;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
+@Builder
 public class ExpenseDto {
 
     private Long id;
 
+    @Schema(hidden = true)
     private LocalDateTime timeAdded;
 
     private BigDecimal amount;
 
-    private CategoryDto category;
+    private Long walletId;
 
-    private WalletDto wallet;
+    private Long categoryId;
+
+    @Schema(hidden = true)
+    private CategoryDto categoryDto;
+
+    @Schema(hidden = true)
+    private WalletDto walletDto;
 }

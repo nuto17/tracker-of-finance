@@ -9,7 +9,10 @@ ALTER COLUMN time_added TYPE TIMESTAMP,
 ALTER COLUMN time_added SET NOT NULL;
 
 ALTER TABLE categories
-ADD COLUMN balance DECIMAL;
+ADD COLUMN balance DECIMAL,
+ADD COLUMN category_limit DECIMAL,
+ALTER COLUMN category_limit SET NOT NULL,
+ALTER COLUMN category_limit SET DEFAULT 0;
 
 UPDATE categories
 SET balance = 0

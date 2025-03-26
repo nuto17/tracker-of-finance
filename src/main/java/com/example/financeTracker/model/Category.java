@@ -1,5 +1,6 @@
 package com.example.financeTracker.model;
 
+import com.example.financeTracker.marks.MarksWithLimit;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,4 +26,11 @@ public class Category {
 
     @Column(name = "balance")
     private BigDecimal categoryBalance;
+
+    @Column(name = "category_limit")
+    private BigDecimal categoryLimit;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "limit_status")
+    private MarksWithLimit categoryLimitMark;
 }

@@ -1,17 +1,30 @@
 package com.example.financeTracker.mapper;
 
-import com.example.financeTracker.model.Wallet;
+
 import com.example.financeTracker.dto.WalletDto;
+import com.example.financeTracker.model.Wallet;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface WalletMapper {
 
+    @Named("fullMappingForCreate")
     Wallet toModel(WalletDto walletDto);
+
     WalletDto toDto(Wallet wallet);
 
-    List<Wallet> toModel(List<WalletDto> walletsDtos);
+    @IterableMapping(qualifiedByName = "fullMappingForCreate")
+    List<Wallet> toModel(List<WalletDto> walletsDto);
+
     List<WalletDto> toDto(List<Wallet> wallets);
+
+    @Named("forUpdateWalletByOnlyIdAndBalance")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "name", ignore = true)
+    Wallet toModelWithOnlyBalance(WalletDto walletDto);
 }

@@ -5,7 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "wallets")
@@ -13,6 +18,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @Builder
+@EntityListeners(AuditingEntityListener.class)
 public class Wallet {
 
     @Id
@@ -22,4 +28,9 @@ public class Wallet {
     private String name;
 
     private BigDecimal balance;
+
+    @Column(name = "update_time", nullable = false)
+    @UpdateTimestamp
+    @CreatedDate
+    private LocalDateTime updateTime;
 }

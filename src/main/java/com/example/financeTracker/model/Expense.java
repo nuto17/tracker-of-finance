@@ -5,11 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,8 +28,9 @@ public class Expense {
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
-    @Column(name = "time_added", nullable = false, updatable = false)
+    @Column(name = "time_added", nullable = false)
     @CreatedDate
+    @UpdateTimestamp
     private LocalDateTime timeAdded;
 
     @JoinColumn(name = "category_id", nullable = false)

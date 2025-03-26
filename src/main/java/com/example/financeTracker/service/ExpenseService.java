@@ -8,7 +8,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -20,38 +19,30 @@ public class ExpenseService {
     private final CategoryService categoryService;
 
     public List<Expense> getExpenses() {
-        List<Expense> allExpenses = expenseRepository.findAll();
-        return allExpenses;
+        return expenseRepository.findAll();
     }
 
     public Expense getExpenseById(Long id) {
-        Expense expenseById = expenseRepository
-                .findById(id)
+        return expenseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Expense with required id doesn't exist"));
-        return expenseById;
     }
 
     public Expense createExpense(Expense expense) {
         Boolean isExpenseOperationMaked = walletService.makeExpense(expense);
+        Boolean isExpenseOperationWithLimitMaked = categoryService.makeExpense(expense);
         if (isExpenseOperationMaked){
             //logic with category
-            Category category = expense.getCategory();
-            Long categoryIdFromExpense = category.getId();
+            Long categoryIdFromExpense = expense.getCategory().getId();
             Category categoryById = categoryService.getCategoryById(categoryIdFromExpense);
-            BigDecimal categoryBalance = categoryById.getCategoryBalance();
-            BigDecimal updatedCategoryBalance = categoryBalance.add(expense.getAmount());
-            categoryById.setCategoryBalance(updatedCategoryBalance);
             Category updatedCategory = categoryService.updateCategory(categoryById, categoryIdFromExpense);
             expense.setCategory(updatedCategory);
 
             //logic with wallet
-            Wallet wallet = expense.getWallet();
-            Long walletIdFromExpense = wallet.getId();
+            Long walletIdFromExpense = expense.getWallet().getId();
             Wallet walletByExpenseId = walletService.getWalletById(walletIdFromExpense);
             expense.setWallet(walletByExpenseId);
 
-            Expense createdExpense = expenseRepository.save(expense);
-            return createdExpense;
+            return expenseRepository.save(expense);
         }
         throw new IllegalArgumentException("balance cannot be less than expense");
     }
@@ -66,8 +57,7 @@ public class ExpenseService {
                 .category(expense.getCategory())
                 .wallet(expense.getWallet())
                 .build();
-        Expense savedBuildedExpense = expenseRepository.save(buildedExpense);
-        return savedBuildedExpense;
+        return expenseRepository.save(buildedExpense);
     }
 
     public void deleteExpenseById(Long id) {

@@ -1,12 +1,13 @@
 package com.example.financeTracker.controller;
 
+import com.example.financeTracker.dto.WalletDto;
 import com.example.financeTracker.mapper.WalletMapper;
 import com.example.financeTracker.model.Wallet;
-import com.example.financeTracker.dto.WalletDto;
 import com.example.financeTracker.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -20,31 +21,38 @@ public class WalletConroller {
     @GetMapping
     public List<WalletDto> getWallets() {
         List<Wallet> wallets = walletService.getWallets();
-        List<WalletDto> walletsDto = mapper.toDto(wallets);
-        return walletsDto;
+        return mapper.toDto(wallets);
     }
 
     @GetMapping("/{id}")
     public WalletDto getWalletById(@PathVariable("id") Long id) {
         Wallet walletById = walletService.getWalletById(id);
-        WalletDto walletByIdDto = mapper.toDto(walletById);
-        return walletByIdDto;
+        return mapper.toDto(walletById);
     }
 
     @PostMapping
     public WalletDto createWallet(@RequestBody WalletDto walletDto) {
         Wallet wallet = mapper.toModel(walletDto);
         Wallet createdWallet = walletService.createWallet(wallet);
-        WalletDto createddWalletDto = mapper.toDto(createdWallet);
-        return createddWalletDto;
+        return mapper.toDto(createdWallet);
     }
 
     @PutMapping("/{id}")
-    public WalletDto updateWallet(@PathVariable("id") Long id, @RequestBody WalletDto walletDto) {
+    public WalletDto updateWalletById(@PathVariable("id") Long id, @RequestBody WalletDto walletDto) {
         Wallet wallet = mapper.toModel(walletDto);
         Wallet updatedWallet = walletService.updateWallet(wallet, id);
-        WalletDto updatedWalletDto = mapper.toDto(updatedWallet);
-        return updatedWalletDto;
+        return mapper.toDto(updatedWallet);
+    }
+
+    @PutMapping("/updateBalance/{id}")
+    public WalletDto updateWalletBalanceById(@PathVariable("id") Long id, @RequestBody WalletDto walletDto){
+        Wallet walletWithOnlyBalance = mapper.toModelWithOnlyBalance(walletDto);
+        Wallet walletById = walletService.getWalletById(id);
+        BigDecimal updatedBalance = walletById.getBalance().add(walletWithOnlyBalance.getBalance());
+        walletById.setUpdateTime(walletWithOnlyBalance.getUpdateTime());
+        walletById.setBalance(updatedBalance);
+        Wallet updatedWallet = walletService.updateWallet(walletById, walletById.getId());
+        return mapper.toDto(updatedWallet);
     }
 
     @DeleteMapping("/{id}")
