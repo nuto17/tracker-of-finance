@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile
     restart: unless-stopped
     ports:
-      - "6666:6666"
+      - "8887:8888"
     env_file:
       - .env.docker
     depends_on:
@@ -16,16 +16,14 @@ services:
 
   db:
     image: postgres:16
-    container_name: template-db
+    container_name: wallets-db
     restart: always
     ports:
       - "${PG_PORT}:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: ${PG_USER}
-      POSTGRES_PASSWORD: ${PG_PASSWORD}
-      POSTGRES_DB: ${PG_DB}
+    env_file:
+      - .env.docker
 
 volumes:
   db-data:
