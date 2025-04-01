@@ -7,13 +7,12 @@ import com.example.financeTracker.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "api/wallets")
-public class WalletConroller {
+public class WalletController {
 
     private final WalletService walletService;
     private final WalletMapper mapper;
@@ -44,19 +43,12 @@ public class WalletConroller {
         return mapper.toDto(updatedWallet);
     }
 
-    @PutMapping("/updateBalance/{id}")
-    public WalletDto updateWalletBalanceById(@PathVariable("id") Long id, @RequestBody WalletDto walletDto){
-        Wallet walletWithOnlyBalance = mapper.toModelWithOnlyBalance(walletDto);
-        Wallet walletById = walletService.getWalletById(id);
-        BigDecimal updatedBalance = walletById.getBalance().add(walletWithOnlyBalance.getBalance());
-        walletById.setUpdateTime(walletWithOnlyBalance.getUpdateTime());
-        walletById.setBalance(updatedBalance);
-        Wallet updatedWallet = walletService.updateWallet(walletById, walletById.getId());
-        return mapper.toDto(updatedWallet);
-    }
+//    @PutMapping("/updateBalance/{id}")
+//    public WalletDto updateWalletBalanceById(@PathVariable("id") Long id, @RequestBody BigDecimal sum){
+//    }
 
     @DeleteMapping("/{id}")
     public void deleteWallet(@PathVariable("id") Long id) {
-        walletService.deleteWallet(id);
+        walletService.deleteWalletById(id);
     }
 }

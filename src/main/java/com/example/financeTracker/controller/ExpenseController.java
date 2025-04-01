@@ -37,12 +37,12 @@ public class ExpenseController {
         return mapper.toDto(createdExpense);
     }
 
-    @PutMapping("/{id}")
-    public ExpenseDtoForOutput updateExpense(@PathVariable("id") Long id, @RequestBody ExpenseDto expenseDto) {
-        Expense expense = mapper.toModel(expenseDto);
-        Expense updatedExpense = expenseService.updateExpense(expense, id);
-        return mapper.toDto(updatedExpense);
-    }
+//    @PutMapping("/{id}")
+//    public ExpenseDtoForOutput updateExpense(@PathVariable("id") Long id, @RequestBody ExpenseDto expenseDto) {
+//        Expense expense = mapper.toModel(expenseDto);
+//        Expense updatedExpense = expenseService.updateExpense(expense, id);
+//        return mapper.toDto(updatedExpense);
+//    }
 
     @DeleteMapping("/{id}")
     public void deleteExpenseByID(@PathVariable("id") Long id) {

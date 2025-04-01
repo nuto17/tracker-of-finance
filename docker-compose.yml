@@ -9,10 +9,6 @@ services:
     restart: unless-stopped
     ports:
       - "8887:8888"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://${PG_HOST}:${PG_PORT}/${PG_DB}
-      SPRING_DATASOURCE_USERNAME: ${PG_USER}
-      SPRING_DATASOURCE_PASSWORD: ${PG_PASSWORD}
     env_file:
       - .env.docker
     depends_on:
@@ -26,10 +22,6 @@ services:
       - "${PG_PORT}:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: ${PG_USER}
-      POSTGRES_PASSWORD: ${PG_PASSWORD}
-      POSTGRES_DB: ${PG_DB}
     env_file:
       - .env.docker
 

@@ -43,39 +43,33 @@ public class CategoryService {
         return categoryRepository.save(buildedCategory);
     }
 
-    public void deleteCategory(Long id) {
+    public void deleteCategoryById(Long id) {
         categoryRepository.deleteById(id);
     }
 
-    public Category statusOfCategoryBalance(BigDecimal categoryBalanceWithExpense, BigDecimal categoryLimit, Category category){
+    public void statusOfCategoryBalance(BigDecimal categoryBalanceWithExpense, BigDecimal categoryLimit, Category category){
         BigDecimal subtractBetweenLimitAndBalance = categoryLimit.subtract(categoryBalanceWithExpense);
         if(subtractBetweenLimitAndBalance.compareTo(BigDecimal.valueOf(1000))>0 || categoryLimit.compareTo(BigDecimal.ZERO)==0){
             category.setCategoryLimitMark(MarksWithLimit.GOOD);
         }
-        else if (subtractBetweenLimitAndBalance.compareTo(BigDecimal.valueOf(500))>0){
+        else if (subtractBetweenLimitAndBalance.compareTo(BigDecimal.valueOf(500))>=0){
             category.setCategoryLimitMark(MarksWithLimit.NEAR);
         }
         else {category.setCategoryLimitMark(MarksWithLimit.OVER);}
         category.setCategoryBalance(categoryBalanceWithExpense);
-        return category;
     }
 
-    public boolean makeExpense(Expense expense){
-        Long categoryId = expense.getCategory().getId();
-        Category categoryById = getCategoryById(categoryId);
-        BigDecimal categoryLimit = categoryById.getCategoryLimit();
-        BigDecimal categoryBalanceWithExpense = categoryById.getCategoryBalance().add(expense.getAmount());
-        MarksWithLimit categoryMark = statusOfCategoryBalance(categoryBalanceWithExpense, categoryLimit, categoryById).getCategoryLimitMark();
-        if(categoryMark.equals(MarksWithLimit.OVER)){
-            return false;
-        }
-        return true;
+    public void makeExpense(Expense expense){
+        Category fullCategoryFromExpense = getCategoryById(expense.getCategory().getId());
+        BigDecimal categoryLimit = fullCategoryFromExpense.getCategoryLimit();
+        BigDecimal categoryBalanceWithExpense = fullCategoryFromExpense.getCategoryBalance().add(expense.getAmount());
+        statusOfCategoryBalance(categoryBalanceWithExpense, categoryLimit, fullCategoryFromExpense);
+        expense.setCategory(fullCategoryFromExpense);
         }
 
-    public Category updateCategoryLimit(Long categoryId, Category category){
+    public Category updateCategoryLimit(Long categoryId, BigDecimal limit){
         Category categoryById = getCategoryById(categoryId);
-        BigDecimal newCategoryLimit = category.getCategoryLimit();
-        categoryById.setCategoryLimit(newCategoryLimit);
-        return updateCategory(categoryById, categoryById.getId());
+        categoryById.setCategoryLimit(limit);
+        return updateCategory(categoryById, categoryId);
     }
 }

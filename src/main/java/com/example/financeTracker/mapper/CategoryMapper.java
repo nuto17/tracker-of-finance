@@ -30,14 +30,6 @@ public interface CategoryMapper {
 
     List<CategoryDto> toDto(List<Category> categories);
 
-    @Named("mappingNewLimit")
-    @Mapping(target = "categoryLimit", source = "categoryDto.limit")
-    @Mapping(target = "name", ignore = true)
-    @Mapping(target = "categoryBalance", ignore = true)
-    @Mapping(target = "categoryLimitMark", ignore = true)
-    @Mapping(target = "id", ignore = true)
-    Category toModelWithNewLimit(CategoryDto categoryDto);
-
     @Named("mapIncludeEmptyLimit")
     default BigDecimal mapIncludeEmptyLimit(BigDecimal limitFromDto){
         if(limitFromDto!=null){
@@ -47,7 +39,7 @@ public interface CategoryMapper {
     }
 
     @Named("mapBalanceDtoToModel")
-    default BigDecimal mapBalanceToModel(BigDecimal balanceDto){
+    default BigDecimal mapBalanceDtoToModel(BigDecimal balanceDto){
         if(balanceDto!=null){
             return balanceDto;
         }

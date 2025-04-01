@@ -29,8 +29,7 @@ public class SubscriptionService {
 
     public Subscription updateSubscription(Subscription subscription, Long id){
         Subscription subscriptionById = getSubscriptionById(id);
-        Subscription buildedSubscription = Subscription
-                .builder()
+        Subscription buildedSubscription = Subscription.builder()
                 .id(subscriptionById.getId())
                 .name(subscription.getName())
                 .price(subscription.getPrice())
@@ -40,7 +39,6 @@ public class SubscriptionService {
     }
 
     public void deleteSubscriptionById(Long id){
-        Subscription subscriptionById = getSubscriptionById(id);
-        subscriptionRepository.delete(subscriptionById);
+        subscriptionRepository.deleteById(id);
     }
 }

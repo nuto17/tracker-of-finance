@@ -1,8 +1,6 @@
 package com.example.financeTracker.service;
 
-import com.example.financeTracker.model.Category;
 import com.example.financeTracker.model.Expense;
-import com.example.financeTracker.model.Wallet;
 import com.example.financeTracker.repository.ExpenseRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -28,40 +26,37 @@ public class ExpenseService {
     }
 
     public Expense createExpense(Expense expense) {
-        Boolean isExpenseOperationMaked = walletService.makeExpense(expense);
-        Boolean isExpenseOperationWithLimitMaked = categoryService.makeExpense(expense);
-        if (isExpenseOperationMaked){
-            //logic with category
-            Long categoryIdFromExpense = expense.getCategory().getId();
-            Category categoryById = categoryService.getCategoryById(categoryIdFromExpense);
-            Category updatedCategory = categoryService.updateCategory(categoryById, categoryIdFromExpense);
-            expense.setCategory(updatedCategory);
-
-            //logic with wallet
-            Long walletIdFromExpense = expense.getWallet().getId();
-            Wallet walletByExpenseId = walletService.getWalletById(walletIdFromExpense);
-            expense.setWallet(walletByExpenseId);
-
-            return expenseRepository.save(expense);
-        }
-        throw new IllegalArgumentException("balance cannot be less than expense");
+        walletService.makeExpense(expense);
+        categoryService.makeExpense(expense);
+        return expenseRepository.save(expense);
     }
 
-    public Expense updateExpense(Expense expense, Long id) {
-        Expense expenseById = getExpenseById(id);
-        Expense buildedExpense = Expense
-                .builder()
-                .id(expenseById.getId())
-                .amount(expense.getAmount())
-                .timeAdded(expense.getTimeAdded())
-                .category(expense.getCategory())
-                .wallet(expense.getWallet())
-                .build();
-        return expenseRepository.save(buildedExpense);
-    }
+//    public Expense updateExpense(Expense expense, Long id) {
+//        Long oldWalletId = getExpenseById(id).getWallet().getId();
+//        BigDecimal oldAmount = getExpenseById(id).getAmount();
+//        BigDecimal newAmount = expense.getAmount();
+//        Category oldCategory = getExpenseById(id).getCategory();
+//        Long newCategoryId = expense.getCategory().getId();
+//
+//        Wallet updatedWallet = walletService.updateWalletFromExpense(oldWalletId, expense.getWallet().getId(), oldAmount, newAmount);
+//        return Expense.builder()
+//                .id(id)
+//                .category(expense.getCategory())
+//                .timeAdded(expense.getTimeAdded())
+//                .wallet(updatedWallet)
+//                .build();
+//    }
+    //дописать логику( нужно чтобы при обновлении траты -> шел перерасчет всего: кошелек, баланс категории
+
+    // пока не воркает
+
+
+//        if(newExpense.getWallet().getId().compareTo(walletService.getWalletById(oldWalletId).getId())!=0 && isNotAmountChanged){
+//            walletService.addMoneyToWalletById(oldAmount,oldWalletId);
+//            walletService.substractMoneyFromWalletById(oldAmount,newExpense.getWallet().getId());
+//        }
 
     public void deleteExpenseById(Long id) {
-        Expense expenseById = getExpenseById(id);
-        expenseRepository.delete(expenseById);
+        expenseRepository.deleteById(id);
     }
 }

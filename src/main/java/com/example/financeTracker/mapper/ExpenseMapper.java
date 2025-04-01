@@ -37,40 +37,36 @@ public interface ExpenseMapper {
 
     @Named("mapDtoIdToCategory")
     default Category mapDtoIdToCategory(Long categoryId){
-        Category categoryWithOnlyId = Category.builder()
+        return Category.builder()
                 .id(categoryId)
                 .build();
-        return categoryWithOnlyId;
     }
 
     @Named("mapCategoryToDto")
     default CategoryDto mapCategoryToDto(Category category) {
-        CategoryDto categoryDto = CategoryDto.builder()
+        return CategoryDto.builder()
                 .id(category.getId())
                 .name(category.getName())
                 .limit(category.getCategoryLimit())
                 .limitStatus(category.getCategoryLimitMark())
                 .balance(category.getCategoryBalance())
                 .build();
-        return categoryDto;
     }
 
     @Named("mapDtoIdToWallet")
     default Wallet mapDtoIdToWallet(Long walletId){
-        Wallet walletWithOnlyId = Wallet.builder()
+        return Wallet.builder()
                 .id(walletId)
                 .build();
-        return walletWithOnlyId;
     }
 
     @Named("mapWalletToDto")
     default WalletDto mapWalletToDto(Wallet wallet){
-        WalletDto walletDto = WalletDto.builder()
+        return WalletDto.builder()
                 .name(wallet.getName())
                 .balance(wallet.getBalance())
                 .id(wallet.getId())
                 .updateTime(wallet.getUpdateTime())
                 .build();
-        return walletDto;
     }
 }
