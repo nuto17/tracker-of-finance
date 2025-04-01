@@ -1,6 +1,6 @@
 package com.example.financeTracker.model;
 
-import com.example.financeTracker.marks.MarksWithLimit;
+import com.example.financeTracker.marks.Enum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,5 +32,5 @@ public class Category {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "limit_status")
-    private MarksWithLimit categoryLimitMark;
+    private Enum categoryLimitMark;
 }

@@ -1,7 +1,7 @@
 package com.example.financeTracker.mapper;
 
 import com.example.financeTracker.dto.CategoryDto;
-import com.example.financeTracker.marks.MarksWithLimit;
+import com.example.financeTracker.marks.Enum;
 import com.example.financeTracker.model.Category;
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
@@ -47,11 +47,11 @@ public interface CategoryMapper {
     }
 
     @Named("mapMarksDtoToModel")
-    default MarksWithLimit mapMarksDtoToModel(MarksWithLimit marksDto){
+    default Enum mapMarksDtoToModel(Enum marksDto){
         if(marksDto!=null){
             return marksDto;
         }
-        return MarksWithLimit.GOOD;
+        return Enum.GOOD;
     }
 }
 

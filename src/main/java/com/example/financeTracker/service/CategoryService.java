@@ -1,6 +1,6 @@
 package com.example.financeTracker.service;
 
-import com.example.financeTracker.marks.MarksWithLimit;
+import com.example.financeTracker.marks.Enum;
 import com.example.financeTracker.model.Category;
 import com.example.financeTracker.model.Expense;
 import com.example.financeTracker.repository.CategoryRepository;
@@ -50,12 +50,12 @@ public class CategoryService {
     public void statusOfCategoryBalance(BigDecimal categoryBalanceWithExpense, BigDecimal categoryLimit, Category category){
         BigDecimal subtractBetweenLimitAndBalance = categoryLimit.subtract(categoryBalanceWithExpense);
         if(subtractBetweenLimitAndBalance.compareTo(BigDecimal.valueOf(1000))>0 || categoryLimit.compareTo(BigDecimal.ZERO)==0){
-            category.setCategoryLimitMark(MarksWithLimit.GOOD);
+            category.setCategoryLimitMark(Enum.GOOD);
         }
-        else if (subtractBetweenLimitAndBalance.compareTo(BigDecimal.valueOf(500))>=0){
-            category.setCategoryLimitMark(MarksWithLimit.NEAR);
+        else if (subtractBetweenLimitAndBalance.compareTo(BigDecimal.valueOf(500))<=0){
+            category.setCategoryLimitMark(Enum.NEAR);
         }
-        else {category.setCategoryLimitMark(MarksWithLimit.OVER);}
+        else {category.setCategoryLimitMark(Enum.OVER);}
         category.setCategoryBalance(categoryBalanceWithExpense);
     }
 
