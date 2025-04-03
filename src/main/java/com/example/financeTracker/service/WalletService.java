@@ -65,6 +65,7 @@ public class WalletService {
         walletById.setBalance(walletById.getBalance().subtract(sum));
         updateWallet(walletById, walletId);
     }
+}
 //в старый возращает но в новый не накидывает
 //    public Wallet updateWalletFromExpense(Long oldWalletId, Long newWalletId, BigDecimal oldAmount, BigDecimal newAmount) {
 //        //меняется только сумма
@@ -82,5 +83,3 @@ public class WalletService {
 //            return getWalletById(newWalletId);
 //        }
 //    }
-
-}

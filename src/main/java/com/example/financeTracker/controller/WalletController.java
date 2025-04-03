@@ -43,12 +43,12 @@ public class WalletController {
         return mapper.toDto(updatedWallet);
     }
 
-//    @PutMapping("/updateBalance/{id}")
-//    public WalletDto updateWalletBalanceById(@PathVariable("id") Long id, @RequestBody BigDecimal sum){
-//    }
-
     @DeleteMapping("/{id}")
     public void deleteWallet(@PathVariable("id") Long id) {
         walletService.deleteWalletById(id);
     }
 }
+//    @PutMapping("/updateBalance/{id}")
+//    public WalletDto updateWalletBalanceById(@PathVariable("id") Long id, @RequestBody BigDecimal sum){
+//    }
+
