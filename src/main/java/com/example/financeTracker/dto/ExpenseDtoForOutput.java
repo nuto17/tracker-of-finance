@@ -19,5 +19,4 @@ public class ExpenseDtoForOutput {
     private CategoryDto category;
 
     private WalletDto wallet;
-
 }
