@@ -1,9 +1,10 @@
 package com.example.financeTracker.controller;
 
-import com.example.financeTracker.dto.WalletDto;
-import com.example.financeTracker.mapper.WalletMapper;
-import com.example.financeTracker.model.Wallet;
-import com.example.financeTracker.service.WalletService;
+import com.example.financeTracker.dto.ExpenseDto;
+import com.example.financeTracker.dto.ExpenseDtoForOutput;
+import com.example.financeTracker.mapper.ExpenseMapper;
+import com.example.financeTracker.model.Expense;
+import com.example.financeTracker.service.ExpenseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,41 +12,33 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping(path = "api/wallets")
+@RequestMapping(path = "api/expenses")
 public class ExpenseController {
 
-    private final WalletService walletService;
-    private final WalletMapper mapper;
+    private final ExpenseService expenseService;
+    private final ExpenseMapper mapper;
 
     @GetMapping
-    public List<WalletDto> getWallets() {
-        List<Wallet> wallets = walletService.getWallets();
-        return mapper.toDto(wallets);
+    public List<ExpenseDtoForOutput> getExpenses() {
+        List<Expense> expenses = expenseService.getExpenses();
+        return mapper.toDto(expenses);
     }
 
     @GetMapping("/{id}")
-    public WalletDto getWalletById(@PathVariable("id") Long id) {
-        Wallet walletById = walletService.getWalletById(id);
-        return mapper.toDto(walletById);
+    public ExpenseDtoForOutput getExpenseById(@PathVariable("id") Long id) {
+        Expense expenseById = expenseService.getExpenseById(id);
+        return mapper.toDto(expenseById);
     }
 
     @PostMapping
-    public WalletDto createWallet(@RequestBody WalletDto walletDto) {
-        Wallet wallet = mapper.toModel(walletDto);
-        Wallet createdWallet = walletService.createWallet(wallet);
-        return mapper.toDto(createdWallet);
-    }
-
-    @PutMapping("/{id}")
-    public WalletDto updateWalletById(@PathVariable("id") Long id, @RequestBody WalletDto walletDto) {
-        Wallet wallet = mapper.toModel(walletDto);
-        Wallet updatedWallet = walletService.updateWallet(wallet, id);
-        return mapper.toDto(updatedWallet);
+    public ExpenseDtoForOutput createExpense(@RequestBody ExpenseDto expenseDto) {
+        Expense expense = mapper.toModel(expenseDto);
+        Expense createdExpense = expenseService.createExpense(expense);
+        return mapper.toDto(createdExpense);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteWallet(@PathVariable("id") Long id) {
-        walletService.deleteWalletById(id);
+    public void deleteExpenseByID(@PathVariable("id") Long id) {
+        expenseService.deleteExpenseById(id);
     }
 }
-
