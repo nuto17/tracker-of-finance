@@ -29,8 +29,8 @@ public class Wallet {
 
     private BigDecimal balance;
 
-    @Column(name = "update_time", nullable = false)
     @UpdateTimestamp
     @CreatedDate
+    @Column(name = "update_time", nullable = false)
     private LocalDateTime updateTime;
 }

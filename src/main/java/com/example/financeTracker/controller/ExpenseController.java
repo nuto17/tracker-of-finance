@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "api/wallets")
-public class WalletController {
+public class ExpenseController {
 
     private final WalletService walletService;
     private final WalletMapper mapper;
@@ -48,7 +48,4 @@ public class WalletController {
         walletService.deleteWalletById(id);
     }
 }
-//    @PutMapping("/updateBalance/{id}")
-//    public WalletDto updateWalletBalanceById(@PathVariable("id") Long id, @RequestBody BigDecimal sum){
-//    }
 
