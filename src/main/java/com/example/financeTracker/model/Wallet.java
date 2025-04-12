@@ -10,7 +10,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "wallets")
@@ -29,8 +28,8 @@ public class Wallet {
 
     private BigDecimal balance;
 
-    @Column(name = "update_time", nullable = false)
     @UpdateTimestamp
     @CreatedDate
+    @Column(name = "update_time", nullable = false)
     private LocalDateTime updateTime;
 }
