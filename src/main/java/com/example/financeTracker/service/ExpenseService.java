@@ -26,7 +26,8 @@ public class ExpenseService {
     }
 
     public Expense createExpense(Expense expense) {
-        walletService.makeExpense(expense);
+        // TODO
+//        walletService.makeExpense(expense);
         categoryService.makeExpense(expense);
         return expenseRepository.save(expense);
     }
