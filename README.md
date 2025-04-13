@@ -71,7 +71,7 @@ http://localhost:8887/swagger-ui.html
 
 2. Запустите проект с автоматической сборкой:
 ```shell
-docker-compose --env-file .env.docker up -d
+docker-compose --env-file .env.docker up -d --build
 ```
 
 3. Запустите приложение через UI или командой:
