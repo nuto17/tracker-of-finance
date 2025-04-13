@@ -1,6 +1,7 @@
 package com.example.financeTracker.controller;
 
 import com.example.financeTracker.dto.ExpenseDto;
+import com.example.financeTracker.dto.ExpenseDtoForOutput;
 import com.example.financeTracker.mapper.ExpenseMapper;
 import com.example.financeTracker.model.Expense;
 import com.example.financeTracker.service.ExpenseService;
@@ -18,34 +19,30 @@ public class ExpenseController {
     private final ExpenseMapper mapper;
 
     @GetMapping
-    public List<ExpenseDto> getExpenses() {
+    public List<ExpenseDtoForOutput> getExpenses() {
         List<Expense> expenses = expenseService.getExpenses();
-        List<ExpenseDto> expensesDto = mapper.toDto(expenses);
-        return expensesDto;
+        return mapper.toDto(expenses);
     }
 
     @GetMapping("/{id}")
-    public ExpenseDto getExpenseById(@PathVariable("id") Long id) {
+    public ExpenseDtoForOutput getExpenseById(@PathVariable("id") Long id) {
         Expense expenseById = expenseService.getExpenseById(id);
-        ExpenseDto expenseByIdDto = mapper.toDto(expenseById);
-        return expenseByIdDto;
+        return mapper.toDto(expenseById);
     }
 
     @PostMapping
-    public ExpenseDto createExpense(@RequestBody ExpenseDto expenseDto) {
+    public ExpenseDtoForOutput createExpense(@RequestBody ExpenseDto expenseDto) {
         Expense expense = mapper.toModel(expenseDto);
         Expense createdExpense = expenseService.createExpense(expense);
-        ExpenseDto createdExpenseDto = mapper.toDto(createdExpense);
-        return createdExpenseDto;
+        return mapper.toDto(createdExpense);
     }
 
-    @PutMapping("/{id}")
-    public ExpenseDto updateExpense(@PathVariable("id") Long id, @RequestBody ExpenseDto expenseDto) {
-        Expense expense = mapper.toModel(expenseDto);
-        Expense updatedExpense = expenseService.updateExpense(expense, id);
-        ExpenseDto updatedExpenseDto = mapper.toDto(updatedExpense);
-        return updatedExpenseDto;
-    }
+//    @PutMapping("/{id}")
+//    public ExpenseDtoForOutput updateExpense(@PathVariable("id") Long id, @RequestBody ExpenseDto expenseDto) {
+//        Expense expense = mapper.toModel(expenseDto);
+//        Expense updatedExpense = expenseService.updateExpense(expense, id);
+//        return mapper.toDto(updatedExpense);
+//    }
 
     @DeleteMapping("/{id}")
     public void deleteExpenseByID(@PathVariable("id") Long id) {

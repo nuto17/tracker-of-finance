@@ -40,7 +40,7 @@
 ## Fast Uses
 1. Клонируйте репозиторий:
 ```shell
-git clone https://gitlub.com/namespace/project-name.git
+git clone https://github.com/nuto17/tracker-of-finance
 ```
 2. Заполните переменные среды в файле `.env.docker` своими значениями
 
@@ -52,13 +52,14 @@ git clone https://gitlub.com/namespace/project-name.git
 
 4. Запустите образ с автоматической сборкой
 ```shell
-docker compose up -d
+docker-compose --env-file .env.docker up -d
+
 ```
 
 ## System endpoints
 Swagger endpoint
 ```
-http://localhost:8081/swagger-ui.html
+http://localhost:8887/swagger-ui.html
 ```
 
 ## Contribution
@@ -68,9 +69,9 @@ http://localhost:8081/swagger-ui.html
    примеру `.env.example` и загрузить переменные в систему.
 
 
-2. Запустите базу данных:
+2. Запустите проект с автоматической сборкой:
 ```shell
-docker compose up -d db
+docker-compose --env-file .env.docker up -d
 ```
 
 3. Запустите приложение через UI или командой:

@@ -2,7 +2,7 @@ package com.example.financeTracker.dto;
 
 import lombok.Data;
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Data
 public class SubscriptionDto {
@@ -11,7 +11,7 @@ public class SubscriptionDto {
 
     private String name;
 
-    private Date dateToPay;
+    private LocalDate dateToPay;
 
     private BigDecimal price;
 }

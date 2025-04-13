@@ -13,39 +13,49 @@ import java.util.List;
 public class ExpenseService {
 
     private final ExpenseRepository expenseRepository;
+    private final WalletService walletService;
+    private final CategoryService categoryService;
 
     public List<Expense> getExpenses() {
-        List<Expense> allExpenses = expenseRepository.findAll();
-        return allExpenses;
+        return expenseRepository.findAll();
     }
 
     public Expense getExpenseById(Long id) {
-        Expense expenseById = expenseRepository
-                .findById(id)
+        return expenseRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Expense with required id doesn't exist"));
-        return expenseById;
     }
 
     public Expense createExpense(Expense expense) {
-        Expense savedExpense = expenseRepository.save(expense);
-        return savedExpense;
-    }
-
-    public Expense updateExpense(Expense expense, Long id) {
-        Expense expenseById = getExpenseById(id);
-        Expense buildedExpense = Expense
-                .builder()
-                .id(expenseById.getId())
-                .amount(expense.getAmount())
-                .timeAdded(expense.getTimeAdded())
-                .category(expense.getCategory())
-                .build();
-        Expense savedBuildedExpense = expenseRepository.save(buildedExpense);
-        return savedBuildedExpense;
+        walletService.makeExpense(expense);
+        categoryService.makeExpense(expense);
+        return expenseRepository.save(expense);
     }
 
     public void deleteExpenseById(Long id) {
-        Expense expenseById = getExpenseById(id);
-        expenseRepository.delete(expenseById);
+        expenseRepository.deleteById(id);
     }
 }
+//    public Expense updateExpense(Expense expense, Long id) {
+//        Long oldWalletId = getExpenseById(id).getWallet().getId();
+//        BigDecimal oldAmount = getExpenseById(id).getAmount();
+//        BigDecimal newAmount = expense.getAmount();
+//        Category oldCategory = getExpenseById(id).getCategory();
+//        Long newCategoryId = expense.getCategory().getId();
+//
+//        Wallet updatedWallet = walletService.updateWalletFromExpense(oldWalletId, expense.getWallet().getId(), oldAmount, newAmount);
+//        return Expense.builder()
+//                .id(id)
+//                .category(expense.getCategory())
+//                .timeAdded(expense.getTimeAdded())
+//                .wallet(updatedWallet)
+//                .build();
+//    }
+//дописать логику( нужно чтобы при обновлении траты -> шел перерасчет всего: кошелек, баланс категории
+
+// пока не воркает
+
+
+//        if(newExpense.getWallet().getId().compareTo(walletService.getWalletById(oldWalletId).getId())!=0 && isNotAmountChanged){
+//            walletService.addMoneyToWalletById(oldAmount,oldWalletId);
+//            walletService.substractMoneyFromWalletById(oldAmount,newExpense.getWallet().getId());
+//        }

@@ -15,36 +15,30 @@ public class SubscriptionService {
     private final SubscriptionRepository subscriptionRepository;
 
     public List<Subscription> getSubscriptions(){
-        List<Subscription> subscriptions = subscriptionRepository.findAll();
-        return subscriptions;
+        return subscriptionRepository.findAll();
     }
 
     public Subscription getSubscriptionById(Long id){
-        Subscription subscriptionById = subscriptionRepository.findById(id)
+        return subscriptionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("subscription with required id doesn't exist"));
-        return subscriptionById;
     }
 
     public Subscription createSubscription(Subscription subscription){
-        Subscription createdSubscription = subscriptionRepository.save(subscription);
-        return createdSubscription;
+        return subscriptionRepository.save(subscription);
     }
 
     public Subscription updateSubscription(Subscription subscription, Long id){
         Subscription subscriptionById = getSubscriptionById(id);
-        Subscription buildedSubscription = Subscription
-                .builder()
+        Subscription buildedSubscription = Subscription.builder()
                 .id(subscriptionById.getId())
                 .name(subscription.getName())
                 .price(subscription.getPrice())
                 .dateToPay(subscription.getDateToPay())
                 .build();
-        Subscription savedBuildedSubscription = subscriptionRepository.save(buildedSubscription);
-        return savedBuildedSubscription;
+        return subscriptionRepository.save(buildedSubscription);
     }
 
     public void deleteSubscriptionById(Long id){
-        Subscription subscriptionById = getSubscriptionById(id);
-        subscriptionRepository.delete(subscriptionById);
+        subscriptionRepository.deleteById(id);
     }
 }

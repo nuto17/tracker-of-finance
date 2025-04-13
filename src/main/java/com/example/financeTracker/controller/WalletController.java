@@ -1,8 +1,8 @@
 package com.example.financeTracker.controller;
 
+import com.example.financeTracker.dto.WalletDto;
 import com.example.financeTracker.mapper.WalletMapper;
 import com.example.financeTracker.model.Wallet;
-import com.example.financeTracker.dto.WalletDto;
 import com.example.financeTracker.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(path = "api/wallets")
-public class WalletConroller {
+public class WalletController {
 
     private final WalletService walletService;
     private final WalletMapper mapper;
@@ -20,35 +20,35 @@ public class WalletConroller {
     @GetMapping
     public List<WalletDto> getWallets() {
         List<Wallet> wallets = walletService.getWallets();
-        List<WalletDto> walletsDto = mapper.toDto(wallets);
-        return walletsDto;
+        return mapper.toDto(wallets);
     }
 
     @GetMapping("/{id}")
     public WalletDto getWalletById(@PathVariable("id") Long id) {
         Wallet walletById = walletService.getWalletById(id);
-        WalletDto walletByIdDto = mapper.toDto(walletById);
-        return walletByIdDto;
+        return mapper.toDto(walletById);
     }
 
     @PostMapping
     public WalletDto createWallet(@RequestBody WalletDto walletDto) {
         Wallet wallet = mapper.toModel(walletDto);
         Wallet createdWallet = walletService.createWallet(wallet);
-        WalletDto createddWalletDto = mapper.toDto(createdWallet);
-        return createddWalletDto;
+        return mapper.toDto(createdWallet);
     }
 
     @PutMapping("/{id}")
-    public WalletDto updateWallet(@PathVariable("id") Long id, @RequestBody WalletDto walletDto) {
+    public WalletDto updateWalletById(@PathVariable("id") Long id, @RequestBody WalletDto walletDto) {
         Wallet wallet = mapper.toModel(walletDto);
         Wallet updatedWallet = walletService.updateWallet(wallet, id);
-        WalletDto updatedWalletDto = mapper.toDto(updatedWallet);
-        return updatedWalletDto;
+        return mapper.toDto(updatedWallet);
     }
 
     @DeleteMapping("/{id}")
     public void deleteWallet(@PathVariable("id") Long id) {
-        walletService.deleteWallet(id);
+        walletService.deleteWalletById(id);
     }
 }
+//    @PutMapping("/updateBalance/{id}")
+//    public WalletDto updateWalletBalanceById(@PathVariable("id") Long id, @RequestBody BigDecimal sum){
+//    }
+
