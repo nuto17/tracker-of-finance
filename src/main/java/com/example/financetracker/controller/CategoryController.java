@@ -7,7 +7,6 @@ import com.example.financetracker.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -47,11 +46,5 @@ public class CategoryController {
     @DeleteMapping("/{id}")
     public void deleteCategory(@PathVariable("id") Long id) {
         categoryService.deleteCategoryById(id);
-    }
-
-    @PutMapping("/updateLimit/{id}")
-    public CategoryDto makeLimit(@PathVariable("id") Long id, @RequestBody BigDecimal newLimit){
-        Category updateCategoryLimit = categoryService.updateCategoryLimit(id, newLimit);
-        return mapper.toDto(updateCategoryLimit);
     }
 }
