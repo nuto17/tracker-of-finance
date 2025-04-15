@@ -40,6 +40,5 @@ public class WalletService {
 
     public void deleteWalletById(Long id) {
         walletRepository.deleteById(id);
-
     }
 }
