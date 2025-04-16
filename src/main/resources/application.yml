@@ -4,6 +4,17 @@ server:
 spring:
   application:
     name: financetracker
+  cors:
+    url:
+      configurations:
+        "[/**]":
+          allowed-origins: "*"
+          exposed-headers:
+            - Authorization
+          allow-credentials: true
+          max-age: 3600
+          allowed-methods: "*"
+          allowed-headers: "*"
   datasource:
     url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
     username: ${POSTGRES_USER}
