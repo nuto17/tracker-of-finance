@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8887:8888"
+      - "9000:9000"
     env_file:
       - .env.docker
     depends_on:
@@ -17,7 +17,7 @@ services:
     image: postgres:16
     container_name: wallets-db
     ports:
-      - "${PG_PORT}:5432"
+      - "${POSTGRES_PORT}:5432"
     volumes:
       - db-data:/var/lib/postgresql/data
     env_file:
