@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8887:8888"
+      - "9000:9000"
     env_file:
       - .env.docker
     depends_on:
