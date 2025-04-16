@@ -21,7 +21,6 @@ public class WalletService {
     public Wallet getWalletById(Long id) {
         return walletRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("wallet with id doesn't exist"));
-        return walletById;
     }
 
     public Wallet createWallet(Wallet wallet) {
@@ -41,6 +40,5 @@ public class WalletService {
 
     public void deleteWalletById(Long id) {
         walletRepository.deleteById(id);
-
     }
 }

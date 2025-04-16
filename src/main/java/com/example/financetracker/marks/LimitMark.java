@@ -1,6 +1,6 @@
 package com.example.financetracker.marks;
 
-public enum Enum {
+public enum LimitMark {
     OVER,
     NEAR,
     GOOD
