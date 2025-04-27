@@ -11,7 +11,7 @@ spring:
           allowed-origins: "*"
           exposed-headers:
             - Authorization
-          allow-credentials: true
+          allow-credentials: false
           max-age: 3600
           allowed-methods: "*"
           allowed-headers: "*"
