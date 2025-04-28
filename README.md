@@ -59,7 +59,7 @@ docker-compose --env-file .env.docker up -d
 ## System endpoints
 Swagger endpoint
 ```
-http://localhost:8887/swagger-ui.html
+http://localhost:9000/swagger-ui.html
 ```
 
 ## Contribution
