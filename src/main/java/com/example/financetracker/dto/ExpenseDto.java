@@ -13,14 +13,15 @@ public class ExpenseDto {
 
     private Long id;
 
-    @Schema(hidden = true)
     private LocalDateTime timeAdded;
+
+//    private LocalDate date;
 
     private BigDecimal amount;
 
     private Long walletId;
 
-    private Long categoryId;
+//    private Long categoryId;
 
     @Schema(hidden = true)
     private CategoryDto categoryDto;

@@ -33,6 +33,9 @@ public class Expense {
     @UpdateTimestamp
     private LocalDateTime timeAdded;
 
+//    @Column(name = "date_added", nullable = false)
+//    private LocalDate date;
+
     @JoinColumn(name = "category_id", nullable = false)
     @ManyToOne
     private Category category;
