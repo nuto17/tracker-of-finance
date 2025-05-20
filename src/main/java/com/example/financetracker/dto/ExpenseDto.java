@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,6 +16,8 @@ public class ExpenseDto {
 
     @Schema(hidden = true)
     private LocalDateTime timeAdded;
+
+    private LocalDate dateAdded;
 
     private BigDecimal amount;
 
