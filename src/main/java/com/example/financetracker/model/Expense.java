@@ -34,7 +34,7 @@ public class Expense {
     @UpdateTimestamp
     private LocalDateTime timeAdded;
 
-    @Column(name = "date_added")
+    @JoinColumn(name = "date_added")
     private LocalDate dateAdded;
 
     @JoinColumn(name = "category_id", nullable = false)
