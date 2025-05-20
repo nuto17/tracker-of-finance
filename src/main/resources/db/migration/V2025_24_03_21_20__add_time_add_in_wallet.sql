@@ -1,7 +1,0 @@
-ALTER TABLE wallets
-ADD COLUMN update_time TIMESTAMP,
-ALTER COLUMN update_time SET NOT NULL;
-
-ALTER TABLE categories
-ADD COLUMN limit_status VARCHAR(255),
-ALTER COLUMN limit_status SET NOT NULL;

@@ -1,8 +1,0 @@
-ALTER TABLE expenses
-ALTER COLUMN time_added TYPE DATE,
-ALTER COLUMN time_added SET NOT NULL,
-ADD COLUMN wallet_id BIGINT NOT NULL;
-
-ALTER TABLE subscriptions
-ALTER COLUMN date_to_pay TYPE DATE,
-ALTER COLUMN date_to_pay SET NOT NULL;

@@ -10,6 +10,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,12 +34,8 @@ public class Expense {
     @UpdateTimestamp
     private LocalDateTime timeAdded;
 
-//    @Column(name = "date_added", nullable = false)
-//    private LocalDate date;
-
-    @JoinColumn(name = "category_id", nullable = false)
-    @ManyToOne
-    private Category category;
+    @Column(name = "date_added", nullable = false)
+    private LocalDate dateAdded;
 
     @JoinColumn(name = "wallet_id", nullable = false)
     @ManyToOne
