@@ -16,6 +16,4 @@ public class CategoryDto {
     private BigDecimal limit;
 
     private BigDecimal balance;
-
-//    private LimitMark limitStatus;
 }
