@@ -28,17 +28,17 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category updateCategory(Category category, Long id) {
-        Category categoryById = getCategoryById(id);
-        Category buildedCategory = Category.builder()
-                .id(categoryById.getId())
-                .name(category.getName())
-                .categoryBalance(category.getCategoryBalance())
-                .categoryLimit(category.getCategoryLimit())
-                .categoryLimitMark(category.getCategoryLimitMark())
-                .build();
-        return categoryRepository.save(buildedCategory);
-    }
+//    public Category updateCategory(Category category, Long id) {
+//        Category categoryById = getCategoryById(id);
+//        Category buildedCategory = Category.builder()
+//                .id(categoryById.getId())
+//                .name(category.getName())
+//                .categoryBalance(category.getCategoryBalance())
+//                .categoryLimit(category.getCategoryLimit())
+//                .categoryLimitMark(category.getCategoryLimitMark())
+//                .build();
+//        return categoryRepository.save(buildedCategory);
+//    }
 
     public void deleteCategoryById(Long id) {
         categoryRepository.deleteById(id);

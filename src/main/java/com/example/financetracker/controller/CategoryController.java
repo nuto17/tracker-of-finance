@@ -36,12 +36,12 @@ public class CategoryController {
         return mapper.toDto(createdCategory);
     }
 
-    @PutMapping("/{id}")
-    public CategoryDto updateCategory(@RequestBody CategoryDto categoryDto, @PathVariable("id") Long id) {
-        Category category = mapper.toModel(categoryDto);
-        Category updatedCategory = categoryService.updateCategory(category, id);
-        return mapper.toDto(updatedCategory);
-    }
+//    @PutMapping("/{id}")
+//    public CategoryDto updateCategory(@RequestBody CategoryDto categoryDto, @PathVariable("id") Long id) {
+//        Category category = mapper.toModel(categoryDto);
+//        Category updatedCategory = categoryService.updateCategory(category, id);
+//        return mapper.toDto(updatedCategory);
+//    }
 
     @DeleteMapping("/{id}")
     public void deleteCategory(@PathVariable("id") Long id) {
