@@ -14,5 +14,7 @@ public interface CategoryMapper {
 
     List<Category> toModel(List<CategoryDto> categoriesDto);
     List<CategoryDto> toDto(List<Category> categories);
+
+    //TODO маппер для обновления (учитывать неизменность полей)
 }
 
