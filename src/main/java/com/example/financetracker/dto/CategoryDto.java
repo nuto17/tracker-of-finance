@@ -1,7 +1,5 @@
 package com.example.financetracker.dto;
 
-import com.example.financetracker.marks.LimitMark;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,9 +15,5 @@ public class CategoryDto {
 
     private BigDecimal limit;
 
-    @Schema(hidden = true)
     private BigDecimal balance;
-
-    @Schema(hidden = true)
-    private LimitMark limitStatus;
 }
