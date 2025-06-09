@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -23,12 +22,12 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class Transaction {
 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
     @Column(name = "time_added")
-    @UpdateTimestamp
     @CreatedDate
     private LocalDateTime timeAdded;
 
@@ -42,12 +41,12 @@ public class Transaction {
     private Long categoryId;
 
     @Column(name = "amount")
-    private BigDecimal amountTransaction;
+    private BigDecimal amount;
 
     @Column(name = "wallet_id")
     private Long walletId;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "operation_type")
     private TransactionType type;
 }

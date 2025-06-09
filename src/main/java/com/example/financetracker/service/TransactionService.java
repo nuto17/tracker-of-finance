@@ -1,4 +1,4 @@
 package com.example.financetracker.service;
 
-public interface TransactionService {
+public class TransactionService {
 }
