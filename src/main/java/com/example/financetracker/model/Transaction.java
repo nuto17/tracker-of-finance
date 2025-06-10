@@ -24,29 +24,29 @@ public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "time_added")
+    @Column(name = "time_added", nullable = false)
     @CreatedDate
     private LocalDateTime timeAdded;
 
-    @Column(name = "start_date")
+    @Column(name = "start_date", nullable = true)
     private LocalDate startDate;
 
-    @Column(name = "last_date")
+    @Column(name = "last_date", nullable = true)
     private LocalDate lastDate;
 
-    @Column(name = "category_id")
+    @Column(name = "category_id", nullable = true)
     private Long categoryId;
 
-    @Column(name = "amount")
+    @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
-    @Column(name = "wallet_id")
+    @Column(name = "wallet_id", nullable = false)
     private Long walletId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "operation_type")
+    @Column(name = "operation_type", nullable = false)
     private TransactionType type;
 }
