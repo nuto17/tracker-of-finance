@@ -1,11 +1,14 @@
 package com.example.financetracker.service;
 
+import com.example.financetracker.model.Transaction;
 import com.example.financetracker.model.Wallet;
 import com.example.financetracker.repository.WalletRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -13,6 +16,7 @@ import java.util.List;
 public class WalletService {
 
     private final WalletRepository walletRepository;
+    private final TransactionService transactionService;
 
     public List<Wallet> getWallets() {
         return walletRepository.findAll();
@@ -40,5 +44,33 @@ public class WalletService {
 
     public void deleteWalletById(Long id) {
         walletRepository.deleteById(id);
+    }
+
+    public boolean isAmountLessWalletBalance(Wallet wallet, BigDecimal amount) {
+        return wallet.getBalance().compareTo(amount) >= 0;
+    }
+
+    public void expenseFromWallet(Transaction transaction) {
+        Wallet walletById = getWalletById(transaction.getWalletId());
+        if (isAmountLessWalletBalance(walletById, transaction.getAmount())) {
+            walletById.setBalance(walletById.getBalance().subtract(transaction.getAmount()));
+        }
+        transactionService.saveTransaction(transaction);
+    }
+
+    public void depositWallet(Transaction transaction) {
+        Wallet walletById = getWalletById(transaction.getWalletId());
+        walletById.setBalance(walletById.getBalance().add(transaction.getAmount()));
+        transactionService.saveTransaction(transaction);
+    }
+
+    @Transactional
+    public Wallet operationWallet(Transaction transaction) {
+        Wallet walletById = getWalletById(transaction.getWalletId());
+        switch (transaction.getType()) {
+            case EXPENSE -> expenseFromWallet(transaction);
+            case DEPOSIT -> depositWallet(transaction);
+        }
+        return getWalletById(transaction.getWalletId());
     }
 }
