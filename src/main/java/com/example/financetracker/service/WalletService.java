@@ -1,5 +1,6 @@
 package com.example.financetracker.service;
 
+import com.example.financetracker.exception.BalanceCanNotBeLessAmount;
 import com.example.financetracker.model.Transaction;
 import com.example.financetracker.model.Wallet;
 import com.example.financetracker.repository.WalletRepository;
@@ -46,16 +47,17 @@ public class WalletService {
         walletRepository.deleteById(id);
     }
 
-    public boolean isAmountLessWalletBalance(Wallet wallet, BigDecimal amount) {
-        return wallet.getBalance().compareTo(amount) >= 0;
+    public void compareAmountBalance(Wallet wallet, BigDecimal amount) {
+         if(wallet.getBalance().compareTo(amount) < 0){
+             throw new BalanceCanNotBeLessAmount();
+         }
     }
 
     public void expenseFromWallet(Transaction transaction) {
         Wallet walletById = getWalletById(transaction.getWalletId());
-        if (isAmountLessWalletBalance(walletById, transaction.getAmount())) {
+            compareAmountBalance(walletById,transaction.getAmount());
             walletById.setBalance(walletById.getBalance().subtract(transaction.getAmount()));
-        }
-        transactionService.saveTransaction(transaction);
+            transactionService.saveTransaction(transaction);
     }
 
     public void depositWallet(Transaction transaction) {
