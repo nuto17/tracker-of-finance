@@ -5,6 +5,7 @@ import com.example.financetracker.dto.WalletDto;
 import com.example.financetracker.mapper.TransactionMapper;
 import com.example.financetracker.mapper.WalletMapper;
 import com.example.financetracker.marks.TransactionType;
+import com.example.financetracker.model.Transaction;
 import com.example.financetracker.model.Wallet;
 import com.example.financetracker.service.WalletService;
 import lombok.RequiredArgsConstructor;
@@ -54,8 +55,10 @@ public class WalletController {
 
     @PostMapping(path = "/{id}/transactions")
     public WalletDto operationWallet(@RequestBody TransactionDto transactionDto, @PathVariable Long id, @RequestParam TransactionType type) {
-        Wallet walletAfterTransaction = walletService.operationWallet(transactionMapper.toModelForOperation(transactionDto));
-        return walletMapper.toDto(walletAfterTransaction);
+        Transaction transaction = transactionMapper.toModel(transactionDto);
+        transaction.setWalletId(id);
+        transaction.setType(type);
+        return walletMapper.toDto(walletService.operationWallet(transaction));
     }
 }
 
