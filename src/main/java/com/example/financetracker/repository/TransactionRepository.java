@@ -1,8 +1,14 @@
 package com.example.financetracker.repository;
 
+import com.example.financetracker.marks.TransactionType;
 import com.example.financetracker.model.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
+
 @Repository
-public interface TransactionRepository extends JpaRepository<Transaction, Long> {}
+public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+    List<Transaction> findAllByWalletIdAndType(Long walletId, TransactionType type);
+}

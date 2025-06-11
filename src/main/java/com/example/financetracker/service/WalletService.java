@@ -1,6 +1,7 @@
 package com.example.financetracker.service;
 
 import com.example.financetracker.exception.BalanceCanNotBeLessAmount;
+import com.example.financetracker.marks.TransactionType;
 import com.example.financetracker.model.Transaction;
 import com.example.financetracker.model.Wallet;
 import com.example.financetracker.repository.WalletRepository;
@@ -48,16 +49,16 @@ public class WalletService {
     }
 
     public void compareAmountBalance(Wallet wallet, BigDecimal amount) {
-         if(wallet.getBalance().compareTo(amount) < 0){
-             throw new BalanceCanNotBeLessAmount();
-         }
+        if (wallet.getBalance().compareTo(amount) < 0) {
+            throw new BalanceCanNotBeLessAmount();
+        }
     }
 
     public void expenseFromWallet(Transaction transaction) {
         Wallet walletById = getWalletById(transaction.getWalletId());
-            compareAmountBalance(walletById,transaction.getAmount());
-            walletById.setBalance(walletById.getBalance().subtract(transaction.getAmount()));
-            transactionService.saveTransaction(transaction);
+        compareAmountBalance(walletById, transaction.getAmount());
+        walletById.setBalance(walletById.getBalance().subtract(transaction.getAmount()));
+        transactionService.saveTransaction(transaction);
     }
 
     public void depositWallet(Transaction transaction) {
@@ -74,5 +75,9 @@ public class WalletService {
             case DEPOSIT -> depositWallet(transaction);
         }
         return getWalletById(transaction.getWalletId());
+    }
+
+    public List<Transaction> getAllTransactionsByWalletIdAndType(Long walletId, TransactionType type) {
+        return transactionService.getAllTransactionByWalletIdAndType(walletId, type);
     }
 }
