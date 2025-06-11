@@ -4,6 +4,7 @@ import com.example.financetracker.exception.BalanceCanNotBeLessAmount;
 import com.example.financetracker.marks.TransactionType;
 import com.example.financetracker.model.Transaction;
 import com.example.financetracker.model.Wallet;
+import com.example.financetracker.repository.TransactionRepository;
 import com.example.financetracker.repository.WalletRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class WalletService {
 
     private final WalletRepository walletRepository;
     private final TransactionService transactionService;
+    private final TransactionRepository transactionRepository;
 
     public List<Wallet> getWallets() {
         return walletRepository.findAll();
@@ -65,6 +67,7 @@ public class WalletService {
         Wallet walletById = getWalletById(transaction.getWalletId());
         walletById.setBalance(walletById.getBalance().add(transaction.getAmount()));
         transactionService.saveTransaction(transaction);
+        //TODO перенести save из сервиса в transactionRep
     }
 
     @Transactional
@@ -78,6 +81,6 @@ public class WalletService {
     }
 
     public List<Transaction> getAllTransactionsByWalletIdAndType(Long walletId, TransactionType type) {
-        return transactionService.getAllTransactionByWalletIdAndType(walletId, type);
+        return transactionRepository.findAllByWalletIdAndType(walletId, type);
     }
 }
