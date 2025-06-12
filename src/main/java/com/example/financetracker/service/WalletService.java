@@ -1,8 +1,10 @@
 package com.example.financetracker.service;
 
 import com.example.financetracker.exception.BalanceCanNotBeLessAmount;
+import com.example.financetracker.marks.TransactionType;
 import com.example.financetracker.model.Transaction;
 import com.example.financetracker.model.Wallet;
+import com.example.financetracker.repository.TransactionRepository;
 import com.example.financetracker.repository.WalletRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ public class WalletService {
 
     private final WalletRepository walletRepository;
     private final TransactionService transactionService;
+    private final TransactionRepository transactionRepository;
 
     public List<Wallet> getWallets() {
         return walletRepository.findAll();
@@ -47,23 +50,23 @@ public class WalletService {
         walletRepository.deleteById(id);
     }
 
-    public void compareAmountBalance(Wallet wallet, BigDecimal amount) {
-         if(wallet.getBalance().compareTo(amount) < 0){
-             throw new BalanceCanNotBeLessAmount();
-         }
+    public void validateSufficientBalance(Wallet wallet, BigDecimal amount) {
+        if (wallet.getBalance().compareTo(amount) < 0) {
+            throw new BalanceCanNotBeLessAmount();
+        }
     }
 
     public void expenseFromWallet(Transaction transaction) {
         Wallet walletById = getWalletById(transaction.getWalletId());
-            compareAmountBalance(walletById,transaction.getAmount());
-            walletById.setBalance(walletById.getBalance().subtract(transaction.getAmount()));
-            transactionService.saveTransaction(transaction);
+        validateSufficientBalance(walletById, transaction.getAmount());
+        walletById.setBalance(walletById.getBalance().subtract(transaction.getAmount()));
+        transactionRepository.save(transaction);
     }
 
     public void depositWallet(Transaction transaction) {
         Wallet walletById = getWalletById(transaction.getWalletId());
         walletById.setBalance(walletById.getBalance().add(transaction.getAmount()));
-        transactionService.saveTransaction(transaction);
+        transactionRepository.save(transaction);
     }
 
     @Transactional
@@ -74,5 +77,12 @@ public class WalletService {
             case DEPOSIT -> depositWallet(transaction);
         }
         return getWalletById(transaction.getWalletId());
+    }
+
+    public List<Transaction> getAllTransactionsByWalletIdAndType(Long walletId, TransactionType type) {
+        if(type!=null){
+           return transactionRepository.findAllByWalletIdAndType(walletId,type);
+        }
+        return transactionRepository.findAllByWalletId(walletId);
     }
 }
