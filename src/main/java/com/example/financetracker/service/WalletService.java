@@ -83,7 +83,6 @@ public class WalletService {
         if(type!=null){
            return transactionRepository.findAllByWalletIdAndType(walletId,type);
         }
-        else
-            return transactionRepository.findAllByWalletId(walletId);
+        return transactionRepository.findAllByWalletId(walletId);
     }
 }
