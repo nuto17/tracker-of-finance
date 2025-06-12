@@ -9,8 +9,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 @EnableJpaAuditing
 @EnableConfigurationProperties(UrlBasedCorsConfigurationProperties.class)
-public class FinancetrackerApplication {
+public class FinanceTrackerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(FinancetrackerApplication.class, args);
+        SpringApplication.run(FinanceTrackerApplication.class, args);
     }
 }
