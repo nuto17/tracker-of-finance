@@ -50,7 +50,7 @@ public class WalletService {
         walletRepository.deleteById(id);
     }
 
-    public void compareAmountBalance(Wallet wallet, BigDecimal amount) {
+    public void validateSufficientBalance(Wallet wallet, BigDecimal amount) {
         if (wallet.getBalance().compareTo(amount) < 0) {
             throw new BalanceCanNotBeLessAmount();
         }
@@ -58,16 +58,15 @@ public class WalletService {
 
     public void expenseFromWallet(Transaction transaction) {
         Wallet walletById = getWalletById(transaction.getWalletId());
-        compareAmountBalance(walletById, transaction.getAmount());
+        validateSufficientBalance(walletById, transaction.getAmount());
         walletById.setBalance(walletById.getBalance().subtract(transaction.getAmount()));
-        transactionService.saveTransaction(transaction);
+        transactionRepository.save(transaction);
     }
 
     public void depositWallet(Transaction transaction) {
         Wallet walletById = getWalletById(transaction.getWalletId());
         walletById.setBalance(walletById.getBalance().add(transaction.getAmount()));
-        transactionService.saveTransaction(transaction);
-        //TODO перенести save из сервиса в transactionRep
+        transactionRepository.save(transaction);
     }
 
     @Transactional
@@ -81,6 +80,10 @@ public class WalletService {
     }
 
     public List<Transaction> getAllTransactionsByWalletIdAndType(Long walletId, TransactionType type) {
-        return transactionRepository.findAllByWalletIdAndType(walletId, type);
+        if(type!=null){
+           return transactionRepository.findAllByWalletIdAndType(walletId,type);
+        }
+        else
+            return transactionRepository.findAllByWalletId(walletId);
     }
 }

@@ -62,8 +62,8 @@ public class WalletController {
     }
 
     @GetMapping("/{id}/transactions")
-    public List<TransactionDto> getAllTransactionsByType(@PathVariable Long id, @RequestParam TransactionType type) {
-    return transactionMapper.toDto(walletService.getAllTransactionsByWalletIdAndType(id,type));
+    public List<TransactionDto> getAllTransactions(@PathVariable Long id, @RequestParam(value = "type", required = false) TransactionType type) {
+        return transactionMapper.toDto(walletService.getAllTransactionsByWalletIdAndType(id, type));
     }
 }
 
