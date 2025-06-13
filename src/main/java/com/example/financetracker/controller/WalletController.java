@@ -11,6 +11,7 @@ import com.example.financetracker.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -62,8 +63,10 @@ public class WalletController {
     }
 
     @GetMapping("/{id}/transactions")
-    public List<TransactionDto> getAllTransactions(@PathVariable Long id, @RequestParam(value = "type", required = false) TransactionType type) {
-        return transactionMapper.toDto(walletService.getAllTransactionsByWalletIdAndType(id, type));
+    public List<TransactionDto> getAllTransactionsByParams(@PathVariable Long id,
+                                                           @RequestParam(value = "type", required = false) TransactionType type,
+                                                           @RequestParam(value = "firstDate", required = false) LocalDate startDate,
+                                                           @RequestParam(value = "secondDate", required = false) LocalDate endDate) {
+      return transactionMapper.toDto(walletService.getAllTransactions(id,type,startDate,endDate));
     }
 }
-
