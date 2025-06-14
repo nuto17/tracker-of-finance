@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -80,9 +82,37 @@ public class WalletService {
     }
 
     public List<Transaction> getAllTransactionsByWalletIdAndType(Long walletId, TransactionType type) {
-        if(type!=null){
-           return transactionRepository.findAllByWalletIdAndType(walletId,type);
+        return transactionRepository.findAllByWalletIdAndType(walletId, type);
+    }
+
+    public LocalDateTime convertDateToDateTime(LocalDate date) {
+        return date.atStartOfDay();
+    }
+
+    public boolean isDatePeriodValid(LocalDate firstDate, LocalDate secondDate) {
+        return firstDate != null && secondDate != null && !firstDate.isAfter(secondDate);
+    }
+
+    public List<Transaction> getAllTransactions(Long walletId, TransactionType type, LocalDate firstDate, LocalDate secondDate) {
+        LocalDateTime firstDateTime;
+        LocalDateTime secondDateTime;
+        boolean hasType = type != null;
+        boolean isDateValid = true;
+        if (isDatePeriodValid(firstDate, secondDate)) {
+            firstDateTime = convertDateToDateTime(firstDate);
+            secondDateTime = convertDateToDateTime(secondDate).plusDays(1);
+        } else {
+            firstDateTime = null;
+            secondDateTime = null;
+            isDateValid = false;
         }
-        return transactionRepository.findAllByWalletId(walletId);
+
+        if (isDateValid && hasType) {
+            return transactionRepository.findAllByWalletIdAndTypeAndTimeAddedBetween(walletId, type, firstDateTime, secondDateTime);
+        } else if (hasType) {
+            return transactionRepository.findAllByWalletIdAndType(walletId, type);
+        } else if (isDateValid) {
+            return transactionRepository.findAllByWalletIdAndTimeAddedBetween(walletId, firstDateTime, secondDateTime);
+        } else return transactionRepository.findAllByWalletId(walletId);
     }
 }
