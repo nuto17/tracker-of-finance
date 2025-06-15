@@ -1,7 +1,6 @@
 package io.github.nuto17.financetracker.service;
 
 import io.github.nuto17.financetracker.exception.BalanceCanNotBeLessAmount;
-import io.github.nuto17.financetracker.exception.NotFoundWalletWithRequiredId;
 import io.github.nuto17.financetracker.marks.TransactionType;
 import io.github.nuto17.financetracker.model.Transaction;
 import io.github.nuto17.financetracker.model.Wallet;
@@ -24,6 +23,7 @@ public class WalletService {
     private final WalletRepository walletRepository;
     private final TransactionService transactionService;
     private final TransactionRepository transactionRepository;
+    private final CategoryService categoryService;
 
     public List<Wallet> getWallets() {
         return walletRepository.findAll();
@@ -53,9 +53,9 @@ public class WalletService {
         walletRepository.deleteById(id);
     }
 
-    public void validateWalletExists(Long walletId){
-        if(!walletRepository.existsById(walletId)){
-            throw  new NotFoundWalletWithRequiredId(walletId);
+    public void validateWalletExists(Long walletId) {
+        if (!walletRepository.existsById(walletId)) {
+            throw new EntityNotFoundException("wallet with required id=" + walletId + " doesn't exist");
         }
     }
 

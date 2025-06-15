@@ -29,7 +29,7 @@ public class CategoryService {
     }
 
     public Category updateCategory(Category category, Long id) {
-        if (categoryRepository.existsCategoryById(id)){
+        if (categoryRepository.existsCategoryById(id)) {
             category.setId(id);
         }
         return categoryRepository.save(category);
@@ -37,5 +37,11 @@ public class CategoryService {
 
     public void deleteCategoryById(Long id) {
         categoryRepository.deleteById(id);
+    }
+
+    public void validateCategoryExist(Long categoryId) {
+        if (!categoryRepository.existsCategoryById(categoryId)) {
+            throw new EntityNotFoundException("category with required id=" + categoryId + " doesn't exist");
+        }
     }
 }
