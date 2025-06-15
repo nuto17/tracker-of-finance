@@ -1,0 +1,20 @@
+package io.github.nuto17.financetracker.mapper;
+
+import io.github.nuto17.financetracker.dto.CategoryDto;
+import io.github.nuto17.financetracker.model.Category;
+import org.mapstruct.Mapper;
+
+import java.util.List;
+
+@Mapper(componentModel = "spring")
+public interface CategoryMapper {
+
+    Category toModel(CategoryDto categoryDto);
+    CategoryDto toDto(Category category);
+
+    List<Category> toModel(List<CategoryDto> categoriesDto);
+    List<CategoryDto> toDto(List<Category> categories);
+
+    //TODO маппер для обновления (учитывать неизменность полей)
+}
+
