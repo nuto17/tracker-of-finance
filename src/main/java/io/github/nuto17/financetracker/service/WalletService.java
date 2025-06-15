@@ -115,4 +115,10 @@ public class WalletService {
             return transactionRepository.findAllByWalletIdAndTimeAddedBetween(walletId, firstDateTime, secondDateTime);
         } else return transactionRepository.findAllByWalletId(walletId);
     }
+
+    public BigDecimal getSumTransactionsByCategoryId(Long walletId, Long categoryId){
+        return transactionRepository.findAllByWalletIdAndCategoryId(walletId, categoryId).stream()
+                .map(Transaction::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
 }

@@ -4,6 +4,7 @@ import io.github.nuto17.financetracker.dto.TransactionDto;
 import io.github.nuto17.financetracker.dto.WalletDto;
 import io.github.nuto17.financetracker.mapper.TransactionMapper;
 import io.github.nuto17.financetracker.mapper.WalletMapper;
+import io.github.nuto17.financetracker.marks.CategoryRequestType;
 import io.github.nuto17.financetracker.marks.TransactionType;
 import io.github.nuto17.financetracker.model.Transaction;
 import io.github.nuto17.financetracker.model.Wallet;
@@ -11,6 +12,7 @@ import io.github.nuto17.financetracker.service.WalletService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -67,6 +69,16 @@ public class WalletController {
                                                            @RequestParam(value = "type", required = false) TransactionType type,
                                                            @RequestParam(value = "firstDate", required = false) LocalDate startDate,
                                                            @RequestParam(value = "secondDate", required = false) LocalDate endDate) {
-      return transactionMapper.toDto(walletService.getAllTransactions(id,type,startDate,endDate));
+        return transactionMapper.toDto(walletService.getAllTransactions(id, type, startDate, endDate));
+    }
+
+    @GetMapping("/{id}/transactions/{categoryId}")
+    public BigDecimal getSumCategoryByWalletId(@PathVariable Long id,@PathVariable Long categoryId, @RequestParam(value = "type", required = false) CategoryRequestType type) {
+        if (type!=null){
+           return walletService.getSumTransactionsByCategoryId(id, categoryId);
+        }
+        return BigDecimal.ZERO;
+
+        //TODO прописать на существование walletId, categoryId
     }
 }
