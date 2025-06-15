@@ -4,7 +4,6 @@ import io.github.nuto17.financetracker.dto.TransactionDto;
 import io.github.nuto17.financetracker.dto.WalletDto;
 import io.github.nuto17.financetracker.mapper.TransactionMapper;
 import io.github.nuto17.financetracker.mapper.WalletMapper;
-import io.github.nuto17.financetracker.marks.CategoryRequestType;
 import io.github.nuto17.financetracker.marks.TransactionType;
 import io.github.nuto17.financetracker.model.Transaction;
 import io.github.nuto17.financetracker.model.Wallet;
@@ -57,7 +56,7 @@ public class WalletController {
     }
 
     @PostMapping(path = "/{id}/transactions")
-    public WalletDto operationWallet(@RequestBody TransactionDto transactionDto, @PathVariable Long id, @RequestParam TransactionType type) {
+    public WalletDto operationWallet(@PathVariable("id") Long id, @RequestBody TransactionDto transactionDto, @RequestParam TransactionType type) {
         Transaction transaction = transactionMapper.toModel(transactionDto);
         transaction.setWalletId(id);
         transaction.setType(type);
@@ -65,7 +64,7 @@ public class WalletController {
     }
 
     @GetMapping("/{id}/transactions")
-    public List<TransactionDto> getAllTransactionsByParams(@PathVariable Long id,
+    public List<TransactionDto> getAllTransactionsByParams(@PathVariable("id") Long id,
                                                            @RequestParam(value = "type", required = false) TransactionType type,
                                                            @RequestParam(value = "firstDate", required = false) LocalDate startDate,
                                                            @RequestParam(value = "secondDate", required = false) LocalDate endDate) {
@@ -73,12 +72,9 @@ public class WalletController {
     }
 
     @GetMapping("/{id}/transactions/{categoryId}")
-    public BigDecimal getSumCategoryByWalletId(@PathVariable Long id,@PathVariable Long categoryId, @RequestParam(value = "type", required = false) CategoryRequestType type) {
-        if (type!=null){
-           return walletService.getSumTransactionsByCategoryId(id, categoryId);
-        }
-        return BigDecimal.ZERO;
-
-        //TODO прописать на существование walletId, categoryId
+    public BigDecimal getSumCategoryByWalletId(@PathVariable("id") Long id, @PathVariable("categoryId") Long categoryId) {
+        walletService.validateWalletExists(id);
+        walletService.validateCategoryExist(categoryId);
+        return walletService.getSumTransactionsByCategoryId(id, categoryId);
     }
 }

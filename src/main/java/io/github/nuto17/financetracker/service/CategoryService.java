@@ -38,10 +38,4 @@ public class CategoryService {
     public void deleteCategoryById(Long id) {
         categoryRepository.deleteById(id);
     }
-
-    public void validateCategoryExist(Long categoryId) {
-        if (!categoryRepository.existsCategoryById(categoryId)) {
-            throw new EntityNotFoundException("category with required id=" + categoryId + " doesn't exist");
-        }
-    }
 }
