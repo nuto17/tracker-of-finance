@@ -21,9 +21,7 @@ import java.util.List;
 public class WalletService {
 
     private final WalletRepository walletRepository;
-    private final TransactionService transactionService;
     private final TransactionRepository transactionRepository;
-    private final CategoryService categoryService;
 
     public List<Wallet> getWallets() {
         return walletRepository.findAll();
@@ -65,27 +63,24 @@ public class WalletService {
         }
     }
 
-    public void expenseFromWallet(Transaction transaction) {
-        Wallet walletById = getWalletById(transaction.getWalletId());
-        validateSufficientBalance(walletById, transaction.getAmount());
-        walletById.setBalance(walletById.getBalance().subtract(transaction.getAmount()));
-        transactionRepository.save(transaction);
+    public void expenseFromWallet(BigDecimal transactionAmount, Wallet walletFromTransaction) {
+        validateSufficientBalance(walletFromTransaction, transactionAmount);
+        walletFromTransaction.setBalance(walletFromTransaction.getBalance().subtract(transactionAmount));
     }
 
-    public void depositWallet(Transaction transaction) {
-        Wallet walletById = getWalletById(transaction.getWalletId());
-        walletById.setBalance(walletById.getBalance().add(transaction.getAmount()));
-        transactionRepository.save(transaction);
+    public void depositWallet(BigDecimal transactionAmount, Wallet walletFromTransaction) {
+        walletFromTransaction.setBalance(walletFromTransaction.getBalance().add(transactionAmount));
     }
 
     @Transactional
     public Wallet operationWallet(Transaction transaction) {
-        Wallet walletById = getWalletById(transaction.getWalletId());
+        Wallet walletFromTransaction = getWalletById(transaction.getWalletId());
         switch (transaction.getType()) {
-            case EXPENSE -> expenseFromWallet(transaction);
-            case DEPOSIT -> depositWallet(transaction);
+            case EXPENSE -> expenseFromWallet(transaction.getAmount(), walletFromTransaction);
+            case DEPOSIT -> depositWallet(transaction.getAmount(), walletFromTransaction);
         }
-        return getWalletById(transaction.getWalletId());
+        transactionRepository.save(transaction);
+        return walletFromTransaction;
     }
 
     public List<Transaction> getAllTransactionsByWalletIdAndType(Long walletId, TransactionType type) {
