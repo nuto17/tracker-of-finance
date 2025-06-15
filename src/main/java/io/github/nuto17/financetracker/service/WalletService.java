@@ -23,6 +23,7 @@ public class WalletService {
     private final WalletRepository walletRepository;
     private final TransactionService transactionService;
     private final TransactionRepository transactionRepository;
+    private final CategoryService categoryService;
 
     public List<Wallet> getWallets() {
         return walletRepository.findAll();
@@ -50,6 +51,12 @@ public class WalletService {
 
     public void deleteWalletById(Long id) {
         walletRepository.deleteById(id);
+    }
+
+    public void validateWalletExists(Long walletId) {
+        if (!walletRepository.existsById(walletId)) {
+            throw new EntityNotFoundException("wallet with required id=" + walletId + " doesn't exist");
+        }
     }
 
     public void validateSufficientBalance(Wallet wallet, BigDecimal amount) {
