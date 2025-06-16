@@ -4,6 +4,7 @@ import io.github.nuto17.financetracker.exception.BalanceCanNotBeLessAmount;
 import io.github.nuto17.financetracker.marks.TransactionType;
 import io.github.nuto17.financetracker.model.Transaction;
 import io.github.nuto17.financetracker.model.Wallet;
+import io.github.nuto17.financetracker.repository.CategoryRepository;
 import io.github.nuto17.financetracker.repository.TransactionRepository;
 import io.github.nuto17.financetracker.repository.WalletRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,6 +23,7 @@ public class WalletService {
 
     private final WalletRepository walletRepository;
     private final TransactionRepository transactionRepository;
+    private final CategoryRepository categoryRepository;
 
     public List<Wallet> getWallets() {
         return walletRepository.findAll();
