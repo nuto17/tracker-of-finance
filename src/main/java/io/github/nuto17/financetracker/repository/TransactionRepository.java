@@ -12,9 +12,9 @@ import java.util.List;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-    List<Transaction> findAllByWalletIdAndType(Long walletId, TransactionType type);
-
     List<Transaction> findAllByWalletId(Long walletId);
+
+    List<Transaction> findAllByWalletIdAndType(Long walletId, TransactionType type);
 
     List<Transaction> findAllByWalletIdAndTypeAndTimeAddedBetween(Long walletId, TransactionType type, LocalDateTime startDate, LocalDateTime endDate);
 

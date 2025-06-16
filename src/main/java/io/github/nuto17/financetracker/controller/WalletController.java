@@ -65,13 +65,20 @@ public class WalletController {
     @GetMapping("/{id}/transactions")
     public List<TransactionDto> getAllTransactionsByParams(@PathVariable("id") @Min(1) Long id,
                                                            @RequestParam(value = "type", required = false) TransactionType type,
-                                                           @RequestParam(value = "firstDate", required = false) LocalDate startDate,
-                                                           @RequestParam(value = "secondDate", required = false) LocalDate endDate) {
-        return transactionMapper.toDto(walletService.getAllTransactions(id, type, startDate, endDate));
+                                                           @RequestParam(value = "categoryId", required = false) Long categoryId) {
+        return transactionMapper.toDto(walletService.getAllTransactionsByWalletIdAndType(id, type));
     }
 
     @GetMapping("/{id}/transactions/sum")
     public BigDecimal getSumCategoryByWalletId(@PathVariable("id") @Min(1) Long id, @RequestParam(value = "categoryId", required = true) Long categoryId) {
         return walletService.getSumTransactionsByCategoryId(id, categoryId);
+    }
+
+    @GetMapping("/{id}/transactions/date")
+    public List<TransactionDto> getAllTransactionsByPeriod(@PathVariable("id") @Min(1) Long id,
+                                                           @RequestParam(value = "firstDate", required = true) LocalDate firstDate,
+                                                           @RequestParam(value = "secondDate", required = true) LocalDate secondDate,
+                                                           @RequestParam(value = "type", required = false) TransactionType type) {
+        return transactionMapper.toDto(walletService.getTransactionsByPeriodAndType(id, type, firstDate, secondDate));
     }
 }

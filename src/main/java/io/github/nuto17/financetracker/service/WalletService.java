@@ -91,39 +91,34 @@ public class WalletService {
         return walletFromTransaction;
     }
 
-    public List<Transaction> getAllTransactionsByWalletIdAndType(Long walletId, TransactionType type) {
-        return transactionRepository.findAllByWalletIdAndType(walletId, type);
-    }
-
     public LocalDateTime convertDateToDateTime(LocalDate date) {
         return date.atStartOfDay();
     }
 
-    public boolean isDatePeriodValid(LocalDate firstDate, LocalDate secondDate) {
-        return firstDate != null && secondDate != null && !firstDate.isAfter(secondDate);
+    public LocalDateTime[] validationDatePeriod(LocalDate firstDate, LocalDate secondDate) {
+        if (firstDate == null || secondDate == null) {
+            throw new IllegalArgumentException("Date can't be null");
+        } else if (secondDate.isBefore(firstDate)) {
+            throw new IllegalArgumentException("Second date can't be early than first date");
+        }
+        return new LocalDateTime[]{convertDateToDateTime(firstDate), convertDateToDateTime(secondDate).plusDays(1)};
     }
 
-    public List<Transaction> getAllTransactions(Long walletId, TransactionType type, LocalDate firstDate, LocalDate secondDate) {
-        LocalDateTime firstDateTime;
-        LocalDateTime secondDateTime;
-        boolean hasType = type != null;
-        boolean isDateValid = true;
-        if (isDatePeriodValid(firstDate, secondDate)) {
-            firstDateTime = convertDateToDateTime(firstDate);
-            secondDateTime = convertDateToDateTime(secondDate).plusDays(1);
-        } else {
-            firstDateTime = null;
-            secondDateTime = null;
-            isDateValid = false;
-        }
 
-        if (isDateValid && hasType) {
-            return transactionRepository.findAllByWalletIdAndTypeAndTimeAddedBetween(walletId, type, firstDateTime, secondDateTime);
-        } else if (hasType) {
-            return transactionRepository.findAllByWalletIdAndType(walletId, type);
-        } else if (isDateValid) {
-            return transactionRepository.findAllByWalletIdAndTimeAddedBetween(walletId, firstDateTime, secondDateTime);
-        } else return transactionRepository.findAllByWalletId(walletId);
+    public List<Transaction> getAllTransactionsByWalletIdAndType(Long walletId, TransactionType type) {
+        if (type!=null){
+            return transactionRepository.findAllByWalletIdAndType(walletId,type);
+        }
+        return transactionRepository.findAllByWalletId(walletId);
+    }
+
+    public List<Transaction> getTransactionsByPeriodAndType(Long walletId, TransactionType type, LocalDate firstDate, LocalDate secondDate){
+        validateWalletExists(walletId);
+        LocalDateTime[] dates = validationDatePeriod(firstDate, secondDate);
+        if (type!=null){
+            return transactionRepository.findAllByWalletIdAndTypeAndTimeAddedBetween(walletId,type,dates[0],dates[1]);
+        }
+        return transactionRepository.findAllByWalletIdAndTimeAddedBetween(walletId,dates[0],dates[1]);
     }
 
     public BigDecimal getSumTransactionsByCategoryId(Long walletId, Long categoryId) {
