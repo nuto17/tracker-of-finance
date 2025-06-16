@@ -57,9 +57,7 @@ public class WalletController {
 
     @PostMapping(path = "/{id}/transactions")
     public WalletDto operationWallet(@PathVariable("id") Long id, @RequestBody TransactionDto transactionDto, @RequestParam TransactionType type) {
-        Transaction transaction = transactionMapper.toModel(transactionDto);
-        transaction.setWalletId(id);
-        transaction.setType(type);
+        Transaction transaction = transactionMapper.toModelFromParamsTypeAndWalletId(transactionDto, id, type);
         return walletMapper.toDto(walletService.operationWallet(transaction));
     }
 
@@ -73,8 +71,6 @@ public class WalletController {
 
     @GetMapping("/{id}/transactions/sum")
     public BigDecimal getSumCategoryByWalletId(@PathVariable("id") Long id, @RequestParam(value = "categoryId", required = true) Long categoryId) {
-        walletService.validateWalletExists(id);
-        walletService.validateCategoryExist(categoryId);
         return walletService.getSumTransactionsByCategoryId(id, categoryId);
     }
 }

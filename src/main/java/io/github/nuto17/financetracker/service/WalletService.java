@@ -127,6 +127,8 @@ public class WalletService {
     }
 
     public BigDecimal getSumTransactionsByCategoryId(Long walletId, Long categoryId) {
+        validateWalletExists(walletId);
+        validateCategoryExist(categoryId);
         return transactionRepository.findAllByWalletIdAndCategoryId(walletId, categoryId).stream()
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
