@@ -71,8 +71,8 @@ public class WalletController {
         return transactionMapper.toDto(walletService.getAllTransactions(id, type, startDate, endDate));
     }
 
-    @GetMapping("/{id}/transactions/{categoryId}")
-    public BigDecimal getSumCategoryByWalletId(@PathVariable("id") Long id, @PathVariable("categoryId") Long categoryId) {
+    @GetMapping("/{id}/transactions/sum")
+    public BigDecimal getSumCategoryByWalletId(@PathVariable("id") Long id, @RequestParam(value = "categoryId", required = true) Long categoryId) {
         walletService.validateWalletExists(id);
         walletService.validateCategoryExist(categoryId);
         return walletService.getSumTransactionsByCategoryId(id, categoryId);
