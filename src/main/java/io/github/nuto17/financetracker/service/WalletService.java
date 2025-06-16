@@ -4,6 +4,7 @@ import io.github.nuto17.financetracker.exception.BalanceCanNotBeLessAmount;
 import io.github.nuto17.financetracker.marks.TransactionType;
 import io.github.nuto17.financetracker.model.Transaction;
 import io.github.nuto17.financetracker.model.Wallet;
+import io.github.nuto17.financetracker.repository.CategoryRepository;
 import io.github.nuto17.financetracker.repository.TransactionRepository;
 import io.github.nuto17.financetracker.repository.WalletRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,6 +23,7 @@ public class WalletService {
 
     private final WalletRepository walletRepository;
     private final TransactionRepository transactionRepository;
+    private final CategoryRepository categoryRepository;
 
     public List<Wallet> getWallets() {
         return walletRepository.findAll();
@@ -54,6 +56,12 @@ public class WalletService {
     public void validateWalletExists(Long walletId) {
         if (!walletRepository.existsById(walletId)) {
             throw new EntityNotFoundException("wallet with required id=" + walletId + " doesn't exist");
+        }
+    }
+
+    public void validateCategoryExist(Long categoryId) {
+        if (!categoryRepository.existsCategoryById(categoryId)) {
+            throw new EntityNotFoundException("category with required id=" + categoryId + " doesn't exist");
         }
     }
 
@@ -116,5 +124,13 @@ public class WalletService {
         } else if (isDateValid) {
             return transactionRepository.findAllByWalletIdAndTimeAddedBetween(walletId, firstDateTime, secondDateTime);
         } else return transactionRepository.findAllByWalletId(walletId);
+    }
+
+    public BigDecimal getSumTransactionsByCategoryId(Long walletId, Long categoryId) {
+        validateWalletExists(walletId);
+        validateCategoryExist(categoryId);
+        return transactionRepository.findAllByWalletIdAndCategoryId(walletId, categoryId).stream()
+                .map(Transaction::getAmount)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
