@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Service
@@ -91,17 +92,13 @@ public class WalletService {
         return walletFromTransaction;
     }
 
-    public LocalDateTime convertDateToDateTime(LocalDate date) {
-        return date.atStartOfDay();
-    }
-
     public LocalDateTime[] validationDatePeriod(LocalDate firstDate, LocalDate secondDate) {
         if (firstDate == null || secondDate == null) {
             throw new IllegalArgumentException("Date can't be null");
         } else if (secondDate.isBefore(firstDate)) {
             throw new IllegalArgumentException("Second date can't be early than first date");
         }
-        return new LocalDateTime[]{convertDateToDateTime(firstDate), convertDateToDateTime(secondDate).plusDays(1)};
+        return new LocalDateTime[]{ firstDate.atStartOfDay(), secondDate.atTime(LocalTime.MAX)};
     }
 
 
