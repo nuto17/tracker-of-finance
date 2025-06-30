@@ -1,6 +1,6 @@
 package io.github.nuto17.financetracker.service;
 
-import io.github.nuto17.financetracker.exception.BalanceCanNotBeLessAmount;
+import io.github.nuto17.financetracker.exception.InsufficientBalanceException;
 import io.github.nuto17.financetracker.marks.TransactionType;
 import io.github.nuto17.financetracker.model.Transaction;
 import io.github.nuto17.financetracker.model.Wallet;
@@ -25,6 +25,7 @@ public class WalletService {
     private final WalletRepository walletRepository;
     private final TransactionRepository transactionRepository;
     private final CategoryRepository categoryRepository;
+    private final CategoryService categoryService;
 
     public List<Wallet> getWallets() {
         return walletRepository.findAll();
@@ -32,43 +33,20 @@ public class WalletService {
 
     public Wallet getWalletById(Long id) {
         return walletRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("wallet with id doesn't exist"));
+                .orElseThrow(() -> new EntityNotFoundException("wallet with id=" + id + " doesn't exist"));
     }
 
     public Wallet createWallet(Wallet wallet) {
         return walletRepository.save(wallet);
     }
 
-    public Wallet updateWallet(Wallet wallet, Long id) {
-        Wallet walletById = getWalletById(id);
-        Wallet builedWallet = Wallet.builder()
-                .id(walletById.getId())
-                .name(wallet.getName())
-                .balance(wallet.getBalance())
-                .updateTime(wallet.getUpdateTime())
-                .build();
-        return walletRepository.save(builedWallet);
-    }
-
     public void deleteWalletById(Long id) {
         walletRepository.deleteById(id);
     }
 
-    public void validateWalletExists(Long walletId) {
-        if (!walletRepository.existsById(walletId)) {
-            throw new EntityNotFoundException("wallet with required id=" + walletId + " doesn't exist");
-        }
-    }
-
-    public void validateCategoryExist(Long categoryId) {
-        if (!categoryRepository.existsCategoryById(categoryId)) {
-            throw new EntityNotFoundException("category with required id=" + categoryId + " doesn't exist");
-        }
-    }
-
     public void validateSufficientBalance(Wallet wallet, BigDecimal amount) {
         if (wallet.getBalance().compareTo(amount) < 0) {
-            throw new BalanceCanNotBeLessAmount();
+            throw new InsufficientBalanceException();
         }
     }
 
@@ -98,29 +76,29 @@ public class WalletService {
         } else if (secondDate.isBefore(firstDate)) {
             throw new IllegalArgumentException("Second date can't be early than first date");
         }
-        return new LocalDateTime[]{ firstDate.atStartOfDay(), secondDate.atTime(LocalTime.MAX)};
+        return new LocalDateTime[]{firstDate.atStartOfDay(), secondDate.atTime(LocalTime.MAX)};
     }
 
 
     public List<Transaction> getAllTransactionsByWalletIdAndType(Long walletId, TransactionType type) {
-        if (type!=null){
-            return transactionRepository.findAllByWalletIdAndType(walletId,type);
+        if (type != null) {
+            return transactionRepository.findAllByWalletIdAndType(walletId, type);
         }
         return transactionRepository.findAllByWalletId(walletId);
     }
 
-    public List<Transaction> getTransactionsByPeriodAndType(Long walletId, TransactionType type, LocalDate firstDate, LocalDate secondDate){
-        validateWalletExists(walletId);
+    public List<Transaction> getTransactionsByPeriodAndType(Long walletId, TransactionType type, LocalDate firstDate, LocalDate secondDate) {
+        getWalletById(walletId);
         LocalDateTime[] dates = validationDatePeriod(firstDate, secondDate);
-        if (type!=null){
-            return transactionRepository.findAllByWalletIdAndTypeAndTimeAddedBetween(walletId,type,dates[0],dates[1]);
+        if (type != null) {
+            return transactionRepository.findAllByWalletIdAndTypeAndTimeAddedBetween(walletId, type, dates[0], dates[1]);
         }
-        return transactionRepository.findAllByWalletIdAndTimeAddedBetween(walletId,dates[0],dates[1]);
+        return transactionRepository.findAllByWalletIdAndTimeAddedBetween(walletId, dates[0], dates[1]);
     }
 
     public BigDecimal getSumTransactionsByCategoryId(Long walletId, Long categoryId) {
-        validateWalletExists(walletId);
-        validateCategoryExist(categoryId);
+        getWalletById(walletId);
+        categoryService.getCategoryById(categoryId);
         return transactionRepository.findAllByWalletIdAndCategoryId(walletId, categoryId).stream()
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);

@@ -21,7 +21,7 @@ public class CategoryService {
     public Category getCategoryById(Long id) {
         return categoryRepository
                 .findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("category with required id doesn't exist"));
+                .orElseThrow(() -> new EntityNotFoundException("category with id=" + id + " doesn't exist"));
     }
 
     public Category createCategory(Category category) {

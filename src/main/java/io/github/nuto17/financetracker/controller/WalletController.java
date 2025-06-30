@@ -44,13 +44,6 @@ public class WalletController {
         return walletMapper.toDto(createdWallet);
     }
 
-    @PutMapping("/{id}")
-    public WalletDto updateWalletById(@PathVariable("id") @Min(1) Long id, @RequestBody WalletDto walletDto) {
-        Wallet wallet = walletMapper.toModel(walletDto);
-        Wallet updatedWallet = walletService.updateWallet(wallet, id);
-        return walletMapper.toDto(updatedWallet);
-    }
-
     @DeleteMapping("/{id}")
     public void deleteWallet(@PathVariable("id") @Min(1) Long id) {
         walletService.deleteWalletById(id);
