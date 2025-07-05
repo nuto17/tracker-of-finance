@@ -61,10 +61,10 @@ public class WalletController {
 
     @GetMapping("/{walletId}/transactions/date")
     public List<TransactionDto> getAllTransactionsByPeriod(@PathVariable("walletId") @Min(1) Long id,
-                                                           @RequestParam(value = "firstDate", required = true) LocalDate firstDate,
-                                                           @RequestParam(value = "secondDate", required = true) LocalDate secondDate,
+                                                           @RequestParam(value = "startDate", required = true) LocalDate startDate,
+                                                           @RequestParam(value = "finishDate", required = true) LocalDate finishDate,
                                                            @RequestParam(value = "type", required = false) TransactionType type) {
-        return transactionMapper.toDto(walletService.getTransactionsByPeriodAndType(id, type, firstDate, secondDate));
+        return transactionMapper.toDto(walletService.getTransactionsByPeriodAndType(id, type, startDate, finishDate));
     }
 
     @GetMapping("/{walletId}/transactions/category")
