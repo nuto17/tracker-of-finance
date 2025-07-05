@@ -18,7 +18,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     List<Transaction> findAllByWalletIdAndTypeAndTimeAddedBetween(Long walletId, TransactionType type, LocalDateTime startDate, LocalDateTime endDate);
 
-    List<Transaction> findAllByWalletIdAndTimeAddedBetween(Long walletId,LocalDateTime startDate, LocalDateTime endDate);
+    List<Transaction> findAllByWalletIdAndTimeAddedBetween(Long walletId, LocalDateTime startDate, LocalDateTime endDate);
 
     List<Transaction> findAllByWalletIdAndCategoryId(Long walletId, Long categoryId);
 }
