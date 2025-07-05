@@ -5,7 +5,6 @@ import io.github.nuto17.financetracker.dto.WalletDto;
 import io.github.nuto17.financetracker.mapper.TransactionMapper;
 import io.github.nuto17.financetracker.mapper.WalletMapper;
 import io.github.nuto17.financetracker.marks.TransactionType;
-import io.github.nuto17.financetracker.model.Transaction;
 import io.github.nuto17.financetracker.model.Wallet;
 import io.github.nuto17.financetracker.service.WalletService;
 import jakarta.validation.constraints.Min;
@@ -51,14 +50,12 @@ public class WalletController {
 
     @PostMapping(path = "/{id}/transactions")
     public WalletDto operationWallet(@PathVariable("id") @Min(1) Long id, @RequestBody TransactionDto transactionDto, @RequestParam TransactionType type) {
-        Transaction transaction = transactionMapper.toModelFromParamsTypeAndWalletId(transactionDto, id, type);
-        return walletMapper.toDto(walletService.operationWallet(transaction));
+        return walletMapper.toDto(walletService.operationWallet(transactionMapper.toModelFromParamsTypeAndWalletId(transactionDto, id, type)));
     }
 
     @GetMapping("/{id}/transactions")
     public List<TransactionDto> getAllTransactionsByParams(@PathVariable("id") @Min(1) Long id,
-                                                           @RequestParam(value = "type", required = false) TransactionType type,
-                                                           @RequestParam(value = "categoryId", required = false) Long categoryId) {
+                                                           @RequestParam(value = "type", required = false) TransactionType type) {
         return transactionMapper.toDto(walletService.getAllTransactionsByWalletIdAndType(id, type));
     }
 

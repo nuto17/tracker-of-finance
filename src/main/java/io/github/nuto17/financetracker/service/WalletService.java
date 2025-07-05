@@ -64,7 +64,10 @@ public class WalletService {
         Wallet walletFromTransaction = getWalletById(transaction.getWalletId());
         switch (transaction.getType()) {
             case EXPENSE -> expenseFromWallet(transaction.getAmount(), walletFromTransaction);
-            case DEPOSIT -> depositWallet(transaction.getAmount(), walletFromTransaction);
+            case DEPOSIT -> {
+                depositWallet(transaction.getAmount(), walletFromTransaction);
+                transaction.setCategoryId(null);
+            }
         }
         transactionRepository.save(transaction);
         return walletFromTransaction;
