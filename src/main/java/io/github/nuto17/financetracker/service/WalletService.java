@@ -62,6 +62,7 @@ public class WalletService {
     @Transactional
     public Wallet operationWallet(Transaction transaction) {
         Wallet walletFromTransaction = getWalletById(transaction.getWalletId());
+        categoryService.getCategoryById(transaction.getCategoryId());
         switch (transaction.getType()) {
             case EXPENSE -> expenseFromWallet(transaction.getAmount(), walletFromTransaction);
             case DEPOSIT -> {
@@ -105,5 +106,10 @@ public class WalletService {
         return transactionRepository.findAllByWalletIdAndCategoryId(walletId, categoryId).stream()
                 .map(Transaction::getAmount)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public List<Transaction> getAllTransactionsByCategoryId(Long walletId, Long categoryId) {
+        categoryService.getCategoryById(categoryId);
+        return transactionRepository.findAllByWalletIdAndCategoryId(walletId, categoryId);
     }
 }
