@@ -1,4 +1,4 @@
-package io.github.nuto17.financetracker.marks;
+package io.github.nuto17.financetracker.enumFin;
 
 
 public enum TransactionType {

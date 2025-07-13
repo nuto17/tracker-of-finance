@@ -1,6 +1,6 @@
 package io.github.nuto17.financetracker.model;
 
-import io.github.nuto17.financetracker.marks.TransactionType;
+import io.github.nuto17.financetracker.enumFin.TransactionType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

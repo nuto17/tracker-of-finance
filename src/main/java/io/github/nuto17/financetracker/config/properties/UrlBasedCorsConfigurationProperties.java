@@ -1,4 +1,4 @@
-package io.github.nuto17.financetracker.config.propert;
+package io.github.nuto17.financetracker.config.properties;
 
 import lombok.Getter;
 import lombok.Setter;
