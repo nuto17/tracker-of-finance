@@ -7,6 +7,7 @@ import io.github.nuto17.financetracker.mapper.TransactionMapper;
 import io.github.nuto17.financetracker.mapper.WalletMapper;
 import io.github.nuto17.financetracker.model.Wallet;
 import io.github.nuto17.financetracker.service.WalletService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -54,7 +55,8 @@ public class WalletController {
         return transactionMapper.toDto(walletService.getAllTransactionsByWalletIdAndType(id, type));
     }
 
-    @GetMapping("/{walletId}/transactions/sum")
+    @Operation(description = "method for getting the amount of transactions by category")
+    @GetMapping("/{walletId}/transactions/category-sum")
     public BigDecimal getSumCategory(@PathVariable("walletId") @Min(1) Long id, @RequestParam(value = "categoryId", required = true) Long categoryId) {
         return walletService.getSumTransactionsByCategoryId(id, categoryId);
     }
@@ -67,7 +69,8 @@ public class WalletController {
         return transactionMapper.toDto(walletService.getTransactionsByPeriodAndType(id, type, startDate, finishDate));
     }
 
-    @GetMapping("/{walletId}/transactions/category")
+    @Operation(description = "method for getting a list of transactions by category")
+    @GetMapping("/{walletId}/transactions/category-summary")
     public List<TransactionDto> getAllTransactionsByCategoryId(@PathVariable("walletId") @Min((1)) Long walletId,
                                                                @RequestParam(value = "categoryId", required = true) Long categoryId) {
         return transactionMapper.toDto(walletService.getAllTransactionsByCategoryId(walletId, categoryId));
