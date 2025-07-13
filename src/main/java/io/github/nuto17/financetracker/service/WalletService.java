@@ -65,7 +65,9 @@ public class WalletService {
         Wallet walletFromTransaction = getWalletById(transaction.getWalletId());
         categoryService.getCategoryById(transaction.getCategoryId());
         switch (transaction.getType()) {
-            case EXPENSE -> expenseFromWallet(transaction.getAmount(), walletFromTransaction);
+            case EXPENSE -> {
+                expenseFromWallet(transaction.getAmount(), walletFromTransaction);
+            }
             case DEPOSIT -> {
                 depositWallet(transaction.getAmount(), walletFromTransaction);
                 transaction.setCategoryId(null);
