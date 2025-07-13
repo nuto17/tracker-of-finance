@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.math.BigDecimal;
@@ -30,7 +29,6 @@ public class Wallet {
     private BigDecimal balance;
 
     @UpdateTimestamp
-    @CreatedDate
     @Column(name = "update_time", nullable = false)
     private LocalDateTime updateTime;
 }
