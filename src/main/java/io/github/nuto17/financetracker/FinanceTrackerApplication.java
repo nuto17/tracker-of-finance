@@ -4,10 +4,8 @@ import io.github.nuto17.financetracker.config.properties.UrlBasedCorsConfigurati
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-@EnableJpaAuditing
 @EnableConfigurationProperties(UrlBasedCorsConfigurationProperties.class)
 public class FinanceTrackerApplication {
     public static void main(String[] args) {
