@@ -2,9 +2,9 @@ package io.github.nuto17.financetracker.controller;
 
 import io.github.nuto17.financetracker.dto.TransactionDto;
 import io.github.nuto17.financetracker.dto.WalletDto;
+import io.github.nuto17.financetracker.enumFin.TransactionType;
 import io.github.nuto17.financetracker.mapper.TransactionMapper;
 import io.github.nuto17.financetracker.mapper.WalletMapper;
-import io.github.nuto17.financetracker.marks.TransactionType;
 import io.github.nuto17.financetracker.model.Wallet;
 import io.github.nuto17.financetracker.service.WalletService;
 import jakarta.validation.constraints.Min;

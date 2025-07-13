@@ -1,6 +1,6 @@
 package io.github.nuto17.financetracker.dto;
 
-import io.github.nuto17.financetracker.marks.TransactionType;
+import io.github.nuto17.financetracker.enumFin.TransactionType;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.Builder;
 import lombok.Data;

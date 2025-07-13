@@ -1,6 +1,6 @@
 package io.github.nuto17.financetracker;
 
-import io.github.nuto17.financetracker.config.propert.UrlBasedCorsConfigurationProperties;
+import io.github.nuto17.financetracker.config.properties.UrlBasedCorsConfigurationProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

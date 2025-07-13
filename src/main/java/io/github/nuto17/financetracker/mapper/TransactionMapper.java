@@ -1,7 +1,7 @@
 package io.github.nuto17.financetracker.mapper;
 
 import io.github.nuto17.financetracker.dto.TransactionDto;
-import io.github.nuto17.financetracker.marks.TransactionType;
+import io.github.nuto17.financetracker.enumFin.TransactionType;
 import io.github.nuto17.financetracker.model.Transaction;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

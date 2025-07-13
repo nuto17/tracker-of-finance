@@ -1,7 +1,7 @@
 package io.github.nuto17.financetracker.service;
 
+import io.github.nuto17.financetracker.enumFin.TransactionType;
 import io.github.nuto17.financetracker.exception.InsufficientBalanceException;
-import io.github.nuto17.financetracker.marks.TransactionType;
 import io.github.nuto17.financetracker.model.Transaction;
 import io.github.nuto17.financetracker.model.Wallet;
 import io.github.nuto17.financetracker.repository.CategoryRepository;
