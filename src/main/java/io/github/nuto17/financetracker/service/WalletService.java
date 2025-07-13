@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -64,7 +65,9 @@ public class WalletService {
         Wallet walletFromTransaction = getWalletById(transaction.getWalletId());
         categoryService.getCategoryById(transaction.getCategoryId());
         switch (transaction.getType()) {
-            case EXPENSE -> expenseFromWallet(transaction.getAmount(), walletFromTransaction);
+            case EXPENSE -> {
+                expenseFromWallet(transaction.getAmount(), walletFromTransaction);
+            }
             case DEPOSIT -> {
                 depositWallet(transaction.getAmount(), walletFromTransaction);
                 transaction.setCategoryId(null);
@@ -74,13 +77,20 @@ public class WalletService {
         return walletFromTransaction;
     }
 
-    public LocalDateTime[] validationDatePeriod(LocalDate firstDate, LocalDate secondDate) {
-        if (firstDate == null || secondDate == null) {
+    public List<LocalDateTime> validationDatePeriod(LocalDate startDate, LocalDate finishDate) {
+        List<LocalDateTime> period = new ArrayList<>();
+        if (startDate == null || finishDate == null) {
             throw new IllegalArgumentException("Date can't be null");
-        } else if (secondDate.isBefore(firstDate)) {
-            throw new IllegalArgumentException("Second date can't be early than first date");
+        } else if (finishDate.isBefore(startDate)) {
+            throw new IllegalArgumentException("Finish date can't be early than start date");
         }
-        return new LocalDateTime[]{firstDate.atStartOfDay(), secondDate.atTime(LocalTime.MAX)};
+        LocalDateTime startDateTime = startDate.atStartOfDay();
+        LocalDateTime finishDateTime = finishDate.atTime(LocalTime.MAX);
+
+        if (startDate.isEqual(finishDate)) {
+            finishDateTime = startDate.plusDays(1).atTime(LocalTime.MAX);
+        }
+        return List.of(startDateTime, finishDateTime);
     }
 
 
@@ -91,13 +101,13 @@ public class WalletService {
         return transactionRepository.findAllByWalletId(walletId);
     }
 
-    public List<Transaction> getTransactionsByPeriodAndType(Long walletId, TransactionType type, LocalDate firstDate, LocalDate secondDate) {
+    public List<Transaction> getTransactionsByPeriodAndType(Long walletId, TransactionType type, LocalDate startDate, LocalDate finishDate) {
         getWalletById(walletId);
-        LocalDateTime[] dates = validationDatePeriod(firstDate, secondDate);
+        List<LocalDateTime> period = validationDatePeriod(startDate, finishDate);
         if (type != null) {
-            return transactionRepository.findAllByWalletIdAndTypeAndTimeAddedBetween(walletId, type, dates[0], dates[1]);
+            return transactionRepository.findAllByWalletIdAndTypeAndTimeAddedBetween(walletId, type, period.get(0), period.get(1));
         }
-        return transactionRepository.findAllByWalletIdAndTimeAddedBetween(walletId, dates[0], dates[1]);
+        return transactionRepository.findAllByWalletIdAndTimeAddedBetween(walletId, period.get(0), period.get(1));
     }
 
     public BigDecimal getSumTransactionsByCategoryId(Long walletId, Long categoryId) {
