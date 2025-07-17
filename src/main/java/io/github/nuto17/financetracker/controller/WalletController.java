@@ -56,7 +56,7 @@ public class WalletController {
     }
 
     @Operation(description = "method for getting the amount of transactions by category")
-    @GetMapping("/{walletId}/transactions/category-sum")
+    @GetMapping("/{walletId}/transactions/sum-by-category")
     public BigDecimal getSumCategory(@PathVariable("walletId") @Min(1) Long id, @RequestParam(value = "categoryId", required = true) Long categoryId) {
         return walletService.getSumTransactionsByCategoryId(id, categoryId);
     }
